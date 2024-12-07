@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>header</title>
+  <link rel="icon" href="../assets/icons/join_icon.svg" />
+  <link rel="stylesheet" href="../styles/header.css" />
+  <link rel="stylesheet" href="../styles/sidebar.css">
+  <link rel="stylesheet" href="../styles/style.css" />
+  <link rel="stylesheet" href="../styles/help.css" />
+  <link rel="stylesheet" href="../styles/fonts.css" />
+  <link rel="icons" href="./assets/icons/join_icon.svg" />
+  <script src="../js/firebaseAPI.js"></script>
+  <script src="../js/script.js"></script>
+  <script src="../js/header.js"></script>
+  <script src="../sidebarfocus.js"></script>
+</head>
+<body>
+  <header class="header">
+    <img class="headerlogoimg" src="../assets/icons/join_icon.svg" />
+    <span class="header-left">Kanban Project Management Tool</span>
+    <div class="header-right">
+      <div class="help"><a href="./help.html"><img class="help" src="..//assets/icons/help.svg" />
+        </a>
+      </div>
+      <div onclick="showMenu()" class="useremblem dropdown" id="emblemUser"></div>
+      <div id="dropdownContent" class="dropdownContent">
+        <a href="./legal_notice.html">Legal Notice</a>
+        <a href="./privacy_policy.html">Privacy Policy</a>
+        <a onclick="userLogOut()">Log Out</a>
+      </div>
+    </div>
+  </header>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../styles/style.css" />
+    <link rel="stylesheet" href="../styles/sidebar.css" />
+    <link rel="stylesheet" href="../styles/Help.css" />
+    <link rel="stylesheet" href="../styles/fonts.css" />
+    <link rel="stylesheet" href="../styles/mobile_taskbar.css" />
+    <link rel="stylesheet" href="../styles/legal_notice.css" />
+    <link rel="icon" href="../assets/icons/join_icon.svg" />
+    <script src="../js/script.js"></script>
+    <script src="../js/header.js"></script>
+    <script src="../js/login.js"></script>
+    <script src="../js/firebaseAPI.js"></script>
+    <title>Join legal-notice</title>
+  </head>
+
+  <body onload="includeHTML()">
+    <div w3-include-html="../templates/sidebar.html"></div>
+    <div w3-include-html="../templates/header.html"></div>
+    <div w3-include-html="../templates/mobile_taskbar.html"></div>
+    <div class="legal-notice">
+      <div class="title">
+        <h1>Impressum</h1>
+        <a id="backSummaryRules" class="back" href="../templates/summary.html">
+          <img class="arrow" src="../assets/icons/arrow-left-line.svg" />
+        </a>
+      </div>
+      <div class="text">
+        <p>
+          Nafi Müftüoglu<br />
+          Musterstraße 10<br />
+          90210 Musterstadt
+        </p>
+        <h2>Kontakt</h2>
+        <p>
+          Telefon: +49 (0) 131 41 51 61<br />
+          Telefax: +49 (0) 132 42 52 62<br />
+          E-Mail: mustermail@mail.de
+        </p>
+        <h2>Redaktionell verantwortlich</h2>
+        <p>
+          Max Mustermann<br />
+          Musterstraße 110<br />
+          12345 Musterstadt
+        </p>
+        <p>Quelle: <a href="https://www.e-recht24.de">eRecht24</a></p>
+      </div>
+    </div>
+  </body>
+</html>

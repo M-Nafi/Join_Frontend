@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup</title>
+    <script src="../js/login.js"></script>
+    <script src="../js/firebaseAPI.js"></script>
+    <script src="../js/script.js"></script>
+    <link rel="stylesheet" href="../styles/style.css">
+    <link rel="stylesheet" href="../styles/login.css">
+    <link rel="stylesheet" href="../styles/fonts.css" />
+    <link rel="icon" type="image/x-icon" href="../assets/icons/join_login.svg" />
+</head>
+
+<body onload="init()">
+    <div class="containerLog" id="containerLog">
+        <div class="headlineLogin">
+            <img class="img-logo" id="imgLogoID" src="../assets/icons/join_login.svg">
+        </div>
+        <form oninput="validateSignUpForm()" class="formSignUp" id="formSignUp" onsubmit="AddUser(event)">
+
+            <div class="headlineSignUp">
+                <a class="a_headlineSignUp" onclick="backToLogin()"><img class="icoArrowLeft"
+                        src="../assets/icons/arrow-left-line.svg"></i></a>
+                <h1 class="title underline">Sign up</h1>
+            </div>
+            <div class="groupSignUp-input">
+                <input class="inputs style_InputTypography1" type="text" id="name"
+                    style="background-image: url(../assets/icons/personInput_icon.svg)" placeholder="Name" required>
+                <input class="inputs style_InputTypography1" type="email" id="email"
+                    style="background-image: url(../assets/icons/mail_icon.svg)" placeholder="Email" required>
+                <input class="inputs style_InputTypography1" id="password"
+                    style="background-image: url(../assets/icons/lock_icon.svg)" placeholder="Password"
+                    onclick="showPassword()" onkeyup="resetError()" required>
+                <input class="inputs style_InputTypography1" name="confirmPass"
+                    style="background-image: url(../assets/icons/lock_icon.svg)" id="passwordConfirm"
+                    placeholder="Confirm Password" onkeyup="resetError()" onclick="showPasswordConf()" required>
+                <div class="confirm-error">
+                    <span id="pwErrorCheck" class="pw-error-check"></span>
+                </div>
+            </div>
+            <div class="box-rememberSignup style_InputTypography2">
+                <input class="checkBox" type="checkbox" id="acepptRules">
+                <span for="remember"> I accept the &nbsp; <a class="a_formSignUp" href="./privacy_policy.html"> Privacy
+                        policy</a></span>
+            </div>
+            <div class="divBtn">
+                <button class="btn-disabled style_BtnTypography1" type="submit" id="btnSignUp">Sign up</button>
+            </div>
+        </form>
+        <div class="footerLogin">
+            <a class="a_footer style_InputTypography2" href="../privacy_policy.html">Privacy Policy</a>
+            <a class="a_footer style_InputTypography2" href="../legal_notice.html">Legal notice</a>
+        </div>
+        <div id="dialogSingUp" class="dialog-bg d-none">
+            <div class="signup-box">
+                You Signed Up successfully
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

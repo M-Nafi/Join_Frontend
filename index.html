@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login</title>
+  <script src="./js/login.js"></script>
+  <script src="./js/firebaseAPI.js"></script>
+  <script src="./js/script.js"></script>
+  <link rel="icon" type="image/x-icon" href="./assets/icons/join_login.svg" />
+  <link rel="stylesheet" href="./styles/style.css" />
+  <link rel="stylesheet" href="./styles/login.css" />
+  <link rel="stylesheet" href="./styles/fonts.css" />
+</head>
+
+<body onload="initLogin()">
+  <div id="mainContainerLogin" class="main-container-login">
+    <div id="iconContainer" class="d-none">
+      <img src="./assets/icons/join_icon.svg" alt="" />
+    </div>
+    <div id="mobileIconContainer" class="d-none">
+      <img src="./assets/icons/join_icon.svg" alt="" />
+    </div>
+    <div id="mobileIconContainerWhite" class="d-none">
+      <img src="./assets/icons/joinWhite.svg" alt="" />
+    </div>
+    <div class="containerLog d-none" id="containerLog">
+      <div class="headline-login">
+        <div id="divSignUp" class="div-signup">
+          <p class="styleTypography1">Not a Join user?</p>
+          <a onclick="signUp()" class="btn-login style_BtnTypography2" type="button">Sign up</a>
+        </div>
+      </div>
+      <div id="errorMessageContainer" class="error-message-container dnone">
+        <div id="loginError" class="error-login-style error-login ">Login failed: </br>Password or Email incorrect</div>
+      </div>
+
+      <div id="mainLoginContainer" class="main-login-container">
+        <form id="formLogin" class="form-login" onsubmit="return doLogin(event)">
+          <h1 class="title underline">Log in</h1>
+          <div class="groupLogin-input">
+            <input class="inputs style_InputTypography1" type="email" id="email"
+              style="background-image: url(./assets/icons/mail_icon.svg)" placeholder="Email" required />
+            <input class="inputs style_InputTypography1" id="password" onclick="showPassword()"
+              style="background-image: url(./assets/icons/lock_icon.svg)" placeholder="Password"
+              onkeyup="resetErrorLogIn()" required />
+            <div class="confirm-error">
+              <span id="loginErrorCheck" class="pw-error-check"></span>
+            </div>
+          </div>
+
+          <div class="box-remember style_InputTypography2">
+            <input class="checkBox" type="checkbox" id="remember" />
+            <label for="remember"> Remember me</label>
+          </div>
+          <div class="divBtn">
+            <button class="btn-login style_BtnTypography1" type="submit">
+              Log in
+            </button>
+            <button class="btn-guest style_BtnTypography1" id="Guest_Login" onclick="getGuestLogin(event)">
+              Guest Log in
+            </button>
+          </div>
+        </form>
+        <div id="mobileDivSignUp" class="mobile_divSignUp">
+          <p class="styleTypography1">Not a Join user?</p>
+          <a class="btn-login style_BtnTypography2" type="button" onclick="renderSignUp()">Sign up</a>
+        </div>
+      </div>
+
+      <div class="footerLogin">
+        <a class="a_footer style_InputTypography2" href="./templates/privacy_policy.html">Privacy Policy</a>
+        <a class="a_footer style_InputTypography2" href="./templates/legal_notice.html">Legal notice</a>
+      </div>
+    </div>
+    <div id="dialogLogin" class="dialog-bg d-none">
+      <div class="signup-box">
+          Successfully logged in
+      </div>
+  </div>
+  </div>
+</body>
+
+</html>

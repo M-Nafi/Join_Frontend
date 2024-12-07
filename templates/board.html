@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../styles/style.css" />
+    <link rel="stylesheet" href="../styles/sidebar.css" />
+    <link rel="stylesheet" href="../styles/mobile_taskbar.css" />
+    <link rel="stylesheet" href="../styles/board.css" />
+    <link rel="stylesheet" href="../styles/cardclass.css" />
+    <link rel="stylesheet" href="../styles/boardAddTask.css" />
+    <link rel="stylesheet" href="../styles/boardEditTask.css" />
+    <link rel="icon" href="../assets/icons/join_icon.svg" />
+    <script src="../js/script.js" defer></script>
+    <script src="../js/header.js"></script>
+    <script src="../js/board.js" defer></script>
+    <script src="../js/board_template.js"></script>
+    <script src="../js/board_bigcard_functions.js"></script>
+    <script src="../js/board_progressbar_functions.js"></script>
+    <script src="../js/board_search_function.js"></script>
+    <script src="../js/firebaseAPI.js"></script>
+    <script src="../js/board_add_task.js"></script>
+    <script src="../js/board_add_task_template.js" defer></script>
+    <script src="../js/board_add_task_clear_functions.js"></script>
+    <script src="../js/board_add_task_subtask_functions.js"></script>
+    <script src="../js/board_add_task_edit_template.js"></script>
+    <script src="../js/board_edit_task.js"></script>
+    <script src="../js/board_edit_subtask_functions.js"></script>
+    <title>Join board</title>
+  </head>
+
+  <body onload="initBoard()">
+    <div w3-include-html="../templates/sidebar.html"></div>
+    <div w3-include-html="../templates/header.html"></div>
+    <div w3-include-html="../templates/mobile_taskbar.html"></div>
+    <div class="board-container">
+      <section class="top">
+        <div class="top-left">
+          <h1>Board</h1>
+          <img
+            class="top-add-task"
+            onclick="showBoardAddTask('toDo')"
+            src="..//assets/icons/add_icon_white.svg"
+          />
+        </div>
+        <div class="top-right">
+          <div class="input-area">
+            <input
+              id="search"
+              onkeyup="searchTasks()"
+              placeholder="Find Task"
+            />
+            <div class="input-area-right">
+              <div class="input-area-right-seperator"></div>
+              <img
+                class="search-svg"
+                src="../assets/icons/search.svg"
+                onclick="searchTasks()"
+              />
+            </div>
+          </div>
+          <button onclick="showBoardAddTask('toDo'); boardAddTaskAnimation()">
+            Add task
+            <img src="..//assets/icons/add_icon_white.svg" />
+          </button>
+        </div>
+      </section>
+      <section class="edit-main">
+        <div class="todo">
+          <div class="todo-head">
+            <h3>To Do</h3>
+            <img
+              onclick="showBoardAddTask('toDo'); boardAddTaskAnimation()"
+              class="plus-btn-svg"
+              src="..//assets/icons/plusbuttonBoard.svg"
+            />
+          </div>
+          <div
+            class="drag-area"
+            id="toDo"
+            ondrop="moveTo(event,'toDo')"
+            ondragover="allowDrop(event); highlight('toDo')"
+            ondragleave="removeHighlight('toDo')"
+          ></div>
+        </div>
+        <div class="in-progress">
+          <div class="in-progress-head">
+            <h3>In Progress</h3>
+            <img
+              onclick="showBoardAddTask('inProgress'); boardAddTaskAnimation()"
+              class="plus-btn-svg"
+              src="..//assets/icons/plusbuttonBoard.svg"
+            />
+          </div>
+          <div
+            class="drag-area"
+            id="inProgress"
+            ondrop="moveTo(event, 'inProgress')"
+            ondragover="allowDrop(event); highlight('inProgress')"
+            ondragleave="removeHighlight('inProgress')"
+          ></div>
+        </div>
+        <div class="await-feedback">
+          <div class="await-feedback-head">
+            <h3>Await Feedback</h3>
+            <img
+              onclick="showBoardAddTask('awaitFeedback'); boardAddTaskAnimation()"
+              class="plus-btn-svg"
+              src="..//assets/icons/plusbuttonBoard.svg"
+            />
+          </div>
+          <div
+            class="drag-area"
+            id="awaitFeedback"
+            ondrop="moveTo(event,'awaitFeedback')"
+            ondragover="allowDrop(event); highlight('awaitFeedback')"
+            ondragleave="removeHighlight('awaitFeedback')"
+          ></div>
+        </div>
+        <div class="done">
+          <div class="done-head">
+            <h3>Done</h3>
+          </div>
+          <div
+            class="drag-area"
+            id="done"
+            ondrop="moveTo(event, 'done')"
+            ondragover="allowDrop(event); highlight('done')"
+            ondragleave="removeHighlight('done')"
+          ></div>
+        </div>
+        <div onclick="closeBigCard()">
+          <div id="showBigCard" class="show-bigcard dnone"></div>
+        </div>
+        <div
+          onclick="closeAddTaskBoard()"
+          id="boardAddTask"
+          class="board-add-task dnone"
+        ></div>
+      </section>
+    </div>
+  </body>
+</html>

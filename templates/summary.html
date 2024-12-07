@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="../styles/style.css" />
+  <link rel="stylesheet" href="../styles/sidebar.css" />
+  <link rel="stylesheet" href="../styles/fonts.css" />
+  <link rel="stylesheet" href="../styles/summary.css" />
+  <link rel=" stylesheet" href="../styles/mobile_taskbar.css" />
+  <link rel="icon" href="../assets/icons/join_icon.svg" />
+  <script src="../js/header.js"></script>
+  <script src=" ../js/script.js"></script>
+  <script src="../js/summary.js"></script>
+  <script src="../js/firebaseAPI.js"></script>
+  <script src="../js/login.js"></script>
+  <title>Join summary!</title>
+</head>
+
+<body onload="initSummary()">
+  <div w3-include-html="../templates/sidebar.html"></div>
+  <div w3-include-html="../templates/header.html"></div>
+  <div w3-include-html="../templates/mobile_taskbar.html"></div>
+  <div class="summary-main-container">
+    <div class="summary-card-container" id="summaryCardContainer">
+      <div class="headline-summary">
+        <div class="summary-title-container">
+          <h1 class="title-contact">Join</h1>
+          <div class="seperator"></div>
+          <p>Key Metrics at a Glance</p>
+          <div class="mobile-seperator"></div>
+        </div>
+      </div>
+      <div class="summary-card-medium-container">
+        <a href="board.html" class="summary-card">
+          <div class="icon-container">
+            <div class="summary-icons-container">
+              <img class="summary-icons" src="../assets/icons/edit.svg" />
+            </div>
+            <div class="text-container">
+              <span class="number-container" id='toDoCount'></span>
+              <span>To-do</span>
+            </div>
+          </div>
+        </a>
+        <a href="board.html" class="summary-card">
+          <div class="icon-container">
+            <div class="summary-icons-container">
+              <img class="summary-icons" src="../assets/icons/Vector.svg" />
+            </div>
+            <div class="text-container">
+              <span class="number-container" id="doneCount"></span>
+              <span>Done</span>
+            </div>
+          </div>
+        </a>
+      </div>
+      <div class="summary-card-big-container">
+        <a href="board.html" class="summary-card-big">
+          <div class="icon-container">
+            <div class="big-card-icons">
+              <img class="summary-icons" src="../assets/icons/urgent_white.svg" />
+            </div>
+            <div class="text-container">
+              <span class="number-container" id="urgentCount"></span>
+              <span>Urgent</span>
+            </div>
+          </div>
+          <div class="seperator-big-card"></div>
+          <div class="text-container-big-card">
+            <span class="date-text" id="nextUrgentDate">October 16, 2024</span>
+            <span class="deadline-text">Upcoming Deadline</span>
+          </div>
+        </a>
+      </div>
+      <div class="summary-card-small-container">
+        <a href="board.html" class="summary-card-small">
+          <div>
+            <div class="text-container">
+              <span class="number-container" id="inProgressCount"></span>
+              <span>Tasks in Progress</span>
+            </div>
+          </div>
+        </a>
+        <a href="board.html" class="summary-card-small">
+          <div>
+            <div class="text-container">
+              <span class="number-container" id="awaitFeedbackCount"></span>
+              <span>Awaiting Feedback</span>
+            </div>
+          </div>
+        </a>
+        <a href="board.html" class="summary-card-small">
+          <div>
+            <div class="text-container">
+              <span class="number-container" id="allTasksCount"></span>
+              <span>Tasks in Board</span>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+    <div class="greeting-container" id="greetingContainer">
+      <span class="greet-text" id="greetText"></span>
+      <span class="greet-user-name" id="greetUserName"></span>
+    </div>
+  </div>
+</body>
+
+</html>

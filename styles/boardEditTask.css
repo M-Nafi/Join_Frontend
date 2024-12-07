@@ -1,0 +1,510 @@
+.edit-add-task {
+  width: 550px;
+  background-color: #ffffff;
+  border-radius: 30px;
+  padding: 48px 40px 48px 40px;
+  overflow-y: auto;
+}
+
+.edit-add-task-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.edit-add-task-container h1 {
+  font-size: 48px;
+}
+
+.edit-add-task-container input {
+  border-radius: 10px;
+  width: 440px;
+  height: 48px;
+  border: 1px solid #d1d1d1;
+  padding: 12px 16px 12px 16px;
+}
+
+.edit-add-task-container select {
+  border-radius: 10px;
+  width: 440px;
+  height: 48px;
+  border: 1px solid #d1d1d1;
+  gap: 10px;
+  padding: 12px 16px 12px 16px;
+}
+
+.edit-add-task-container textarea {
+  border-radius: 10px;
+  width: 440px;
+  height: 48px;
+  border: 1px solid #d1d1d1;
+  gap: 10px;
+  padding: 12px 16px 12px 16px;
+  overflow-y: hidden;
+}
+
+.edit-task-header {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.close-edit-board {
+  height: 40px;
+  width: 40px;
+}
+
+.close-edit-board:hover {
+  cursor: pointer;
+  background-color: #dcdcdc;
+  border-radius: 50%;
+}
+
+.edit-prio-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 16px;
+}
+
+.edit-priobtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  width: 136px;
+  height: 56px;
+  gap: 8px;
+  padding: 16px 10px 16px 10px;
+  border: none;
+  font-weight: bold;
+  background-color: #ffffff;
+  font-size: 21px;
+  border: 1px solid #d1d1d1;
+}
+
+.edit-priobtn:hover {
+  cursor: pointer;
+}
+
+textarea {
+  resize: none;
+}
+
+.edit-btntask-container {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.edit-btntask {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 90px;
+  background: #2a3647;
+  border-radius: 10px;
+  padding: 16px;
+  gap: 4px;
+  font-size: 18px;
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.edit-btntask:hover {
+  background-color: #29abe2;
+  border: 0.5px solid #29abe2;
+  cursor: pointer;
+}
+
+.btnClear:hover {
+  color: #29abe2;
+  border: 0.5px solid #29abe2;
+  cursor: pointer;
+}
+
+.btnClear:hover .iconCancelSvg {
+  filter: invert(53%) sepia(100%) saturate(305%) hue-rotate(153deg)
+    brightness(91%) contrast(106%);
+}
+
+.midBtn-Color {
+  background-color: #ffa800;
+  color: #ffffff;
+}
+
+.addTaskBtn-Container {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.edit-required-color {
+  color: red;
+}
+
+.edit-selected {
+  color: white;
+}
+
+.user span {
+  font-weight: bold;
+}
+
+.edit-users-emblem {
+  display: inline-flex;
+  margin-left: 12px;
+}
+
+.edit-emblem {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #29abe2;
+  color: white;
+  font-size: 12px;
+  margin-left: -8px;
+}
+
+.edit-contactlist {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  gap: 12px;
+  height: 40px;
+  cursor: pointer;
+  padding: 0px 20px;
+  border-radius: 10px;
+}
+
+.edit-contactlist:hover {
+  background-color: #e2e4e5;
+}
+
+.edit-contactlist span {
+  width: 100%;
+}
+
+.edit-contactlist-selected {
+  background-color: #2a3647;
+  border: none;
+  outline: #2a3647;
+  color: white;
+}
+
+.edit-contactlist-selected:hover {
+  background-color: #091931;
+}
+
+.edit-contact-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  width: 440px;
+  height: 48px;
+  background-color: #ffffff;
+  border: 1px solid #d1d1d1;
+  border-radius: 10px;
+  padding: 12px 16px 12px 16px;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.edit-contact-container:hover {
+  cursor: pointer;
+}
+
+.edit-contact-container span {
+  font-size: 20px;
+}
+
+.show {
+  display: flex !important; 
+}
+
+.close {
+  display: flex;
+}
+
+.edit-users {
+  display: none;
+  position: absolute;
+  background-color: #ffffff;
+  height: 180px;
+  width: 440px;
+  overflow: auto;
+  border-radius: 10px;
+  top: 50px;
+  right: -2px;
+  gap: 4px;
+  padding-inline-start: 0px;
+  z-index: 2;
+}
+
+input[type='checkbox'] {
+  height: 14px;
+  width: 14px;
+}
+
+.edit-contact-name {
+  width: 80%;
+}
+
+.edit-subtask-container {
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 10px;
+  width: 440px;
+  height: 48px;
+  border: 1px solid #d1d1d1;
+  padding: 12px 16px 12px 16px;
+  background-color: #ffffff;
+}
+
+.edit-subtask-container input {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  padding: 1px;
+  width: 100%;
+}
+
+.edit-subtask-right-add img:hover {
+  cursor: pointer;
+  background-color: #d2d2d2;
+  border-radius: 50%;
+}
+
+.edit-subtask-right-add {
+  display: flex;
+}
+
+.edit-subtask-right-add img {
+  width: 24px;
+  height: 24px;
+}
+
+.edit-subtask-right-seperator {
+  height: 24px;
+  width: 1px;
+  margin: 0px 4px;
+  background-color: #d1d1d1;
+}
+
+.edit-subtask-right-regular img {
+  height: 24px;
+  width: 24px;
+}
+
+.edit-subtask-right-regular img:hover {
+  cursor: pointer;
+  background-color: #d2d2d2;
+  border-radius: 50%;
+}
+
+.edit-subtask {
+  height: 90px;
+  overflow-y: auto;
+}
+
+.edit-subtasklist {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  height: 24px;
+  gap: 4px;
+  padding: 4px 16px 4px 16px;
+}
+
+.edit-subtasklist::before {
+  content: '\2022';
+}
+
+.edit-subtasklist:hover {
+  background-color: #dcdcdc;
+  border-radius: 10px;
+}
+
+.edit-subtasklist input {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  width: 100%;
+  cursor: pointer;
+  padding: 0;
+  height: 21px;
+}
+
+.edit-list {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  height: 32px;
+  gap: 4px;
+  padding: 4px 16px 4px 16px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #29abe2;
+  border-radius: 0px;
+}
+
+.edit-list input {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  width: 100%;
+  cursor: pointer;
+  padding: 0;
+  height: 21px;
+}
+
+.edit-list img:hover {
+  cursor: pointer;
+  background-color: #d2d2d2;
+  border-radius: 50%;
+}
+
+.edit-images {
+  display: none;
+}
+
+.edit-subtasklist:hover .edit-images {
+  display: flex;
+}
+
+.flex {
+  display: flex !important;
+}
+
+.edit-seperator {
+  height: 24px;
+  width: 1px;
+  margin: 0px 4px;
+  background-color: #d1d1d1;
+}
+
+.dnone {
+  display: none;
+}
+
+.btnEdit-svg:hover {
+  cursor: pointer;
+  border-radius: 50%;
+  background-color: #d2d2d2;
+}
+
+.edit-grey-emblem {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #7a7b7b;
+  color: white;
+  font-size: 12px;
+  margin-left: -8px;
+}
+
+@media (max-width: 960px) {
+  .edit-add-task-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .seperator {
+    display: none;
+  }
+
+  .addTaskBtn-Container {
+    margin-bottom: 90px;
+  }
+}
+
+@media (max-width: 800px) {
+  .edit-add-task {
+    height: 75%;
+    width: 80%;
+    padding: 40px 32px 40px 32px;
+  }
+
+  .edit-add-task-container input {
+    width: 100%;
+  }
+
+  .edit-add-task-container textarea {
+    width: 100%;
+  }
+
+  .edit-user-checkbox {
+    display: flex;
+    flex: 1;
+  }
+
+  .edit-contact-container {
+    width: 100%;
+  }
+
+  .edit-subtask-container {
+    width: 100%;
+  }
+
+  .edit-priobtn {
+    width: 120px;
+    font-size: 19px;
+    padding: 14px 8px 14px 8px;
+    height: 48px;
+  }
+
+  .edit-users {
+    width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  .edit-add-task {
+    width: 100%;
+    padding: 30px 24px 30px 20px;
+  }
+  .edit-prio-container {
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+  .edit-priobtn {
+    width: 100%;
+    flex-direction: row;
+  }
+
+  .edit-add-task-container {
+    gap: 16px;
+  }
+}
+
+@media (max-width: 470px) {
+  .edit-user-checkbox {
+    width: 20px !important;
+  }
+
+  .edit-emblem {
+    width: 30px;
+    height: 28px;
+  }
+
+  .addTaskBtn-Container {
+    margin-left: 0px;
+  }
+
+  .edit-contact-container span {
+    font-size: 16px;
+  }
+
+  .big-title h1 {
+    font-size: 42px;
+  }
+}
