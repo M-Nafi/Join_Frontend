@@ -9,7 +9,7 @@
   top: 0;
   left: 0;
   right: 0;
-  width: 232px;
+  width: 200px;
   height: 100vh;
   border-right: solid 1px lightgray;
   box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.1);
@@ -22,6 +22,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
 }
 
 .logoimg {
@@ -33,20 +34,14 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  gap: 15px;
+  gap: 16px;
 }
 
 .a-nav {
   display: flex;
-  text-decoration: none;
-  color: #cdcdcd;
-  justify-content: flex-start;
-  vertical-align: middle;
-  align-items: center;
-  font-weight: 400;
-  font-size: 16px;
+  justify-content: center;
+
   height: 46px;
-  padding: 8px 56px 8px 56px;
   gap: 12px;
 }
 
@@ -54,6 +49,17 @@
   cursor: pointer;
   color: #ffffff;
   background-color: rgb(9, 25, 49, 1);
+}
+
+.a-nav a {
+  width: 120px;
+  text-decoration: none;
+  color: #cdcdcd;
+  display: flex;
+  align-items: center;
+  font-weight: 400;
+  gap: 8px;
+  font-size: 16px;
 }
 
 .active {
@@ -93,19 +99,10 @@
   font-weight: bold;
 }
 
-@media (max-width: 1260px) {
-  .sidebar {
-    width: 200px;
-  }
-
-  .a-nav {
-    padding: 8px 36px 8px 36px;
-  }
-}
-
 @media (max-width: 1050px) {
   .sidebar {
     display: none;
   }
 }
 
+/* Sidebarfocus CSS  */

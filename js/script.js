@@ -1,21 +1,3 @@
-let colors = [
-  '#FF7A00',
-  '#FF5EB3',
-  '#6E52FF',
-  '#9327FF',
-  '#00BEE8',
-  '#1FD7C1',
-  '#FF745E',
-  '#FFA35E',
-  '#FC71FF',
-  '#FFC701',
-  '#0038FF',
-  '#C3FF2B',
-  '#FFE62B',
-  '#FF4646',
-  '#FFBB2B',
-];
-
 let categorys = ['Technical Task', 'User Story', 'Development', 'Editing'];
 let users = [];
 let tasks = [];
@@ -99,15 +81,19 @@ async function includeHTML() {
  * @return {undefined} This function does not return a value.
  */
 function focusSidebar() {
-  let currentPage = window.location.href.split('/').pop();
-  let menu = document.getElementById('mysidebar');
-  let links = menu.getElementsByTagName('a');
-  for (let i = 0; i < links.length; i++) {
-    let linkHref = links[i].getAttribute('href');
-    if (linkHref.replace('./', '') === currentPage.replace('?', '')) {
-      links[i].focus();
-      links[i].classList.add('active');
-      break;
+  const currentPage = window.location.href.split('/').pop();
+  const menu = document.getElementById('mysidebar');
+  const navItems = menu.querySelectorAll('.a-nav');
+
+  for (let navItem of navItems) {
+    const link = navItem.querySelector('a');
+    const linkHref = link.getAttribute('href').replace('./', '');
+
+    // Add "active" class if the link matches the current page, remove otherwise
+    if (linkHref === currentPage.replace('?', '')) {
+      navItem.classList.add('active');
+    } else {
+      navItem.classList.remove('active');
     }
   }
 }
@@ -118,34 +104,46 @@ function focusSidebar() {
  * @return {undefined} This function does not return a value.
  */
 function focusMobileSidebar() {
-  let currentPage = window.location.href.split('/').pop();
-  let mobileMenu = document.getElementById('mobile-menu');
-  let mobileLinks = mobileMenu.getElementsByTagName('a');
-  for (let i = 0; i < mobileLinks.length; i++) {
-    let linkHref = mobileLinks[i].getAttribute('href');
-    if (linkHref.replace('./', '') === currentPage.replace('?', '')) {
-      mobileLinks[i].focus();
-      mobileLinks[i].classList.add('active');
-      break;
+  const currentPage = window.location.href.split('/').pop();
+  const mobileMenu = document.getElementById('mobile-menu');
+  const mobileLinks = [...mobileMenu.getElementsByTagName('a')];
+
+  mobileLinks.forEach(link => {
+    const linkHref = link.getAttribute('href').replace('./', '');
+    link.classList.toggle('active', linkHref === currentPage.replace('?', ''));
+    if (linkHref === currentPage.replace('?', '')) {
+      link.focus();
     }
-  }
+  });
 }
 
+
 /**
- * Asynchronously retrieves the user object from the 'users' data source based on the user ID stored in the session storage.
+ * Asynchronously retrieves the user object from the 'users' data source based on the user token stored in the session storage.
  *
  * @return {Promise<Object|null>} A Promise that resolves to the user object if found, or null if not found.
  */
 async function getUserLogin() {
-  let userID = window.sessionStorage.getItem('userId');
-  let usersJson = await loadData('users');
-  for (key in usersJson) {
-    let user = usersJson[key];
-    if (user.userId.toString() == userID) {
-      return user;
-    }
+  const token = sessionStorage.getItem('token') || localStorage.getItem('token'); // User ID aus sessionStorage oder localStorage abrufen
+  if (!token) {
+    console.error('No user ID found in session or local storage.');
+    return null;
   }
-  return null;
+
+  try {
+    const user = await loadData('user'); // Alle Benutzer laden
+
+    if (user) {
+      console.log('Logged-in user found:', user);
+      return user;
+    } else {
+      console.warn('No user found matching the provided user ID.');
+      return null;
+    }
+  } catch (error) {
+    console.error('Error loading users:', error);
+    return null;
+  }
 }
 
 /**
@@ -184,7 +182,9 @@ async function getuseremblem() {
  * @return {void} This function does not return anything.
  */
 function userLogOut() {
-  window.sessionStorage.removeItem('userId');
+  localStorage.removeItem("token");
+  sessionStorage.removeItem("token");
+  console.log("Token entfernt. Benutzer abgemeldet.");
   window.location.href = '../index.html';
 }
 

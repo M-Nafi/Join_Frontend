@@ -8,18 +8,16 @@
 async function initLogin() {
   joinAnimation();
   moveIcon();
-  usersJson = await loadData('users');
 }
-let usersJson;
 
 /**
  * Initializes the button element by disabling it and updating its class.
  */
 function init() {
-  let btn = document.getElementById('btnSignUp');
-  btn.setAttribute('disabled', '');
-  btn.classList.remove('btn-join');
-  btn.classList.add('btn-disabled');
+  let btn = document.getElementById("btnSignUp");
+  btn.setAttribute("disabled", "");
+  btn.classList.remove("btn-join");
+  btn.classList.add("btn-disabled");
 }
 
 /**
@@ -27,10 +25,10 @@ function init() {
  * @return {void} This function does not return anything.
  */
 function isChecked() {
-  const btn = document.getElementById('btnSignUp');
-  btn.removeAttribute('disabled', '');
-  btn.classList.add('btn-join');
-  btn.classList.remove('btn-disabled');
+  const btn = document.getElementById("btnSignUp");
+  btn.removeAttribute("disabled", "");
+  btn.classList.add("btn-join");
+  btn.classList.remove("btn-disabled");
 }
 
 /**
@@ -40,20 +38,13 @@ function isChecked() {
  */
 async function AddUser(event) {
   event.preventDefault();
-  let name = document.getElementById('name').value;
-  let email = document.getElementById('email').value;
-  let password = document.getElementById('password').value;
-  let confirmpassword = document.getElementById('passwordConfirm').value;
-  if (password != confirmpassword) {
-    showPasswordError();
-    return false;
-  }
-  if (await emailExists(email)) {
-    checkEmailExist();
-    return false;
-  }
-  let user = await createUser(name, email, password);
-  await postData('users', user);
+  let username = document.getElementById("name").value;
+  let email = document.getElementById("email").value;
+  let password = document.getElementById("password").value;
+  let confirm_password = document.getElementById("passwordConfirm").value;
+
+  let user = await createUser(username, email, password, confirm_password);
+  await postData("registration", user, false);
   showSignUpDialog();
   await sleep(3000);
   cleanContactControls();
@@ -64,37 +55,26 @@ async function AddUser(event) {
  * Displays an error message indicating that the passwords do not match.
  */
 function showPasswordError() {
-  let pwErrorElement = document.getElementById('pwErrorCheck');
-  pwErrorElement.style.display = 'flex';
-  pwErrorElement.innerText = '* Passwords are not the same';
-}
-
-/**
- * Updates the email input element to display an error message for an existing email.
- */
-function checkEmailExist() {
-  let emailElement = document.getElementById('email');
-  emailElement.value = ''; // Email-Input leeren
-  emailElement.value = 'Diese E-Mail existiert bereits';
-  emailElement.style = 'color:red; font-weight:bold;';
-  emailElement.style.border = '2px solid red';
+  let pwErrorElement = document.getElementById("pwErrorCheck");
+  pwErrorElement.style.display = "flex";
+  pwErrorElement.innerText = "* Passwords are not the same";
 }
 
 /**
  * Creates a new user object with the given name, email, and password.
- * @param {string} name - The name of the user.
+ * @param {string} username - The name of the user.
  * @param {string} email - The email of the user.
  * @param {string} password - The password of the user.
  * @return {Promise<Object>} A promise that resolves to the newly created user object.
  */
-async function createUser(name, email, password) {
+async function createUser(username, email, password, confirm_password) {
   return {
-    userId: (await findLastUserId()) + 1,
-    name: name,
+    username: username,
     email: email,
     password: password,
-    emblem: getEmblemUser(name),
-    color: colorRandom(),
+    confirm_password: confirm_password,
+    emblem: getEmblemUser(username),
+    color: colorRandom()
   };
 }
 
@@ -103,7 +83,7 @@ async function createUser(name, email, password) {
  * @return {void} This function does not return a value.
  */
 function showSignUpDialog() {
-  document.getElementById('dialogSingUp').style.display = 'flex';
+  document.getElementById("dialogSingUp").style.display = "flex";
 }
 
 /**
@@ -111,7 +91,7 @@ function showSignUpDialog() {
  * @return {void} This function does not return a value.
  */
 function showLoginDialog() {
-  document.getElementById('dialogLogin').style.display = 'flex';
+  document.getElementById("dialogLogin").style.display = "flex";
 }
 
 /**
@@ -120,7 +100,7 @@ function showLoginDialog() {
  * @return {Promise<boolean>} A promise that resolves to true if the email already exists, false otherwise.
  */
 async function emailExists(email) {
-  let usersJson = await loadData('users');
+  let usersJson = await loadData("users");
   for (let key in usersJson) {
     if (usersJson[key].email === email) {
       return true;
@@ -134,7 +114,9 @@ async function emailExists(email) {
  * @return {string} A randomly selected color from the `colors` array.
  */
 function colorRandom() {
-  return colors[Math.floor(Math.random() * colors.length)];
+  return `#${Math.floor(Math.random() * 16777215)
+    .toString(16)
+    .padStart(6, "0")}`;
 }
 
 /**
@@ -143,31 +125,14 @@ function colorRandom() {
  * @return {string} The initials generated from the name.
  */
 function getEmblemUser(name) {
-  let nameParts = name.split(' ');
-  let initials = '';
+  let nameParts = name.split(" ");
+  let initials = "";
   for (let i = 0; i < nameParts.length; i++) {
     if (i <= 1) {
       initials += nameParts[i].slice(0, 1).toUpperCase();
     }
   }
   return initials;
-}
-
-/**
- * Finds the last user ID from the 'users' data by iterating through the users
- * and comparing their IDs. Returns the last user ID found.
- * @return {Promise<number>} The last user ID found in the 'users' data.
- */
-async function findLastUserId() {
-  let usersJson = await loadData('users');
-  let lastId = 1;
-  for (key in usersJson) {
-    let user = usersJson[key];
-    if (user.userId > lastId) {
-      lastId = user.userId;
-    }
-  }
-  return lastId;
 }
 
 /**
@@ -183,10 +148,10 @@ let sleep = function (ms) {
  * Clears the input values of the contact form.
  */
 function cleanContactControls() {
-  document.getElementById('name').value = '';
-  document.getElementById('email').value = '';
-  document.getElementById('password').value = '';
-  document.getElementById('passwordConfirm').value = '';
+  document.getElementById("name").value = "";
+  document.getElementById("email").value = "";
+  document.getElementById("password").value = "";
+  document.getElementById("passwordConfirm").value = "";
 }
 
 /**
@@ -196,31 +161,31 @@ function cleanContactControls() {
  */
 async function doLogin(event) {
   if (event) event.preventDefault();
-  let email = document.getElementById('email').value;
-  let password = document.getElementById('password').value;
-  if (checkUserExist(email, password)) {
+  let email = document.getElementById("email").value;
+  let password = document.getElementById("password").value;
+  try {
+    const response = await postData("login", { email, password }, false);
+    const token = response.token;
+    const remember = document.getElementById("remember");
+    setToken(token, remember);
+    console.log("Token:", response);
     showLoginDialog();
     await sleep(3000);
-    window.location.href = './templates/summary.html';
-  } else {
-    showLoginError();
+    window.location.href = "./templates/summary.html";
+  } catch (error) {
+    console.error("Login fehlgeschlagen:", error.message);
+    showLoginError(error.message);
     return false;
   }
 }
 
-/**
- * Checks if a user with the provided email and password exists in the usersJson object.
- * @param {string} email - The email of the user to be checked.
- * @param {string} password - The password of the user to be checked.
- * @return {boolean} Returns true if a user with the given email and password exists, false otherwise.
- */
-function checkUserExist(email, password) {
-  for (let key in usersJson) {
-    let user = usersJson[key];
-    if (email === user.email && password === user.password) {
-      window.sessionStorage.setItem('userId', user.userId);
-      return true;
-    }
+function setToken(token, remember) {
+  if (remember.checked) {
+    localStorage.setItem("token", token);
+    console.log("Token gespeichert in Local Storage.");
+  } else {
+    sessionStorage.setItem("token", token);
+    console.log("Token gespeichert in Session Storage.");
   }
   return false;
 }
@@ -229,9 +194,9 @@ function checkUserExist(email, password) {
  * Displays a login error message on the webpage.
  */
 function showLoginError() {
-  let loginErrorElement = document.getElementById('loginErrorCheck');
-  loginErrorElement.style.display = 'flex';
-  loginErrorElement.innerText = '* user does not exist or wrong password';
+  let loginErrorElement = document.getElementById("loginErrorCheck");
+  loginErrorElement.style.display = "flex";
+  loginErrorElement.innerText = "* user does not exist or wrong password";
 }
 
 /**
@@ -240,9 +205,9 @@ function showLoginError() {
  * @return {void} This function does not return anything.
  */
 function errorLogin() {
-  document.getElementById('errorMessageContainer').classList.remove('dnone');
+  document.getElementById("errorMessageContainer").classList.remove("dnone");
   setTimeout(function () {
-    document.getElementById('errorMessageContainer').classList.add('dnone');
+    document.getElementById("errorMessageContainer").classList.add("dnone");
   }, 3000);
 }
 
@@ -251,21 +216,27 @@ function errorLogin() {
  * @param {Event} event - The event object representing the form submission.
  * @return {void} This function does not return anything.
  */
-function getGuestLogin(event) {
+async function getGuestLogin(event) {
   event.preventDefault();
-  let userId = 0;
-  window.sessionStorage.setItem('userId', userId);
-  location.href = './templates/summary.html';
+  try {
+    const response = await postData("guest-login", {}, false);
+    const token = response.token;
+    sessionStorage.setItem("token", token);
+    location.href = "./templates/summary.html";
+  } catch (error) {
+    console.error("Fehler beim Gast-Login:", error);
+    alert("Gast-Login fehlgeschlagen. Bitte versuchen Sie es erneut.");
+  }
 }
 
 function showPassword() {
-  let image = document.getElementById('password');
-  if (image.type == 'password') {
+  let image = document.getElementById("password");
+  if (image.type == "password") {
     image.style.backgroundImage = "url('../assets/icons/visibility.svg')";
-    image.type = 'text';
+    image.type = "text";
   } else {
     image.style.backgroundImage = "url('../assets/icons/visibility_off.svg')";
-    image.type = 'password';
+    image.type = "password";
   }
 }
 
@@ -273,13 +244,13 @@ function showPassword() {
  * Function to toggle password visibility.
  */
 function showPasswordConf() {
-  let image = document.getElementById('passwordConfirm');
-  if (image.type == 'password') {
+  let image = document.getElementById("passwordConfirm");
+  if (image.type == "password") {
     image.style.backgroundImage = "url('../assets/icons/visibility.svg')";
-    image.type = 'text';
+    image.type = "text";
   } else {
     image.style.backgroundImage = "url('../assets/icons/visibility_off.svg')";
-    image.type = 'password';
+    image.type = "password";
   }
 }
 
@@ -289,7 +260,7 @@ function showPasswordConf() {
  */
 function moveIcon() {
   setTimeout(() => {
-    document.getElementById('containerLog').style.display = 'flex';
+    document.getElementById("containerLog").style.display = "flex";
   }, 3000);
 }
 
@@ -298,9 +269,9 @@ function moveIcon() {
  * @return {void} This function does not return anything.
  */
 function signUp() {
-  location.href = './templates/signUp.html';
+  location.href = "./templates/signUp.html";
   if (700 <= window.innerWidth) {
-    document.getElementById('divSignUp').classList.add('d-none');
+    document.getElementById("divSignUp").classList.add("d-none");
   }
 }
 
@@ -309,13 +280,13 @@ function signUp() {
  * @return {void} This function does not return anything.
  */
 function backToLogin() {
-  location.href = '../index.html';
+  location.href = "../index.html";
   if (700 <= window.innerWidth) {
-    document.getElementById('divSignUp').classList.remove('d-none');
+    document.getElementById("divSignUp").classList.remove("d-none");
   } else {
     document
-      .getElementById('mobileDivSignUp')
-      .classList.remove('d-none-important');
+      .getElementById("mobileDivSignUp")
+      .classList.remove("d-none-important");
   }
 }
 
@@ -324,21 +295,21 @@ function backToLogin() {
  * @return {void} This function does not return anything.
  */
 function joinAnimation() {
-  let animation = document.getElementById('iconContainer');
-  let mobileanimation = document.getElementById('mobileIconContainer');
+  let animation = document.getElementById("iconContainer");
+  let mobileanimation = document.getElementById("mobileIconContainer");
   let mobileanimationwhite = document.getElementById(
-    'mobileIconContainerWhite'
+    "mobileIconContainerWhite"
   );
-  let mainContainerLogin = document.getElementById('mainContainerLogin');
+  let mainContainerLogin = document.getElementById("mainContainerLogin");
   if (700 <= window.innerWidth) {
-    animation.classList.remove('d-none');
-    animation.classList.add('icon-container');
+    animation.classList.remove("d-none");
+    animation.classList.add("icon-container");
   } else {
-    mainContainerLogin.style.backgroundColor = '#06192c';
-    mobileanimation.classList.remove('d-none');
-    mobileanimationwhite.classList.remove('d-none');
-    mobileanimation.classList.add('mobile-icon-container');
-    mobileanimationwhite.classList.add('mobile-icon-container-white');
+    mainContainerLogin.style.backgroundColor = "#06192c";
+    mobileanimation.classList.remove("d-none");
+    mobileanimationwhite.classList.remove("d-none");
+    mobileanimation.classList.add("mobile-icon-container");
+    mobileanimationwhite.classList.add("mobile-icon-container-white");
   }
 }
 
@@ -347,16 +318,16 @@ function joinAnimation() {
  * @return {void} Calls either the init() function or isChecked() based on form field validation.
  */
 function validateSignUpForm() {
-  let name = document.getElementById('name').value;
-  let email = document.getElementById('email').value;
-  let password = document.getElementById('password').value;
-  let confirmpassword = document.getElementById('passwordConfirm').value;
-  let checkBox = document.getElementById('acepptRules');
+  let name = document.getElementById("name").value;
+  let email = document.getElementById("email").value;
+  let password = document.getElementById("password").value;
+  let confirmpassword = document.getElementById("passwordConfirm").value;
+  let checkBox = document.getElementById("acepptRules");
   if (
-    name == '' ||
-    email == '' ||
-    password == '' ||
-    confirmpassword == '' ||
+    name == "" ||
+    email == "" ||
+    password == "" ||
+    confirmpassword == "" ||
     checkBox.checked == false
   ) {
     init();
@@ -370,7 +341,7 @@ function validateSignUpForm() {
  * @return {void} This function does not return anything.
  */
 function resetError() {
-  document.getElementById('pwErrorCheck').style.display = 'none';
+  document.getElementById("pwErrorCheck").style.display = "none";
 }
 
 /**
@@ -378,5 +349,5 @@ function resetError() {
  * @return {void} This function does not return anything.
  */
 function resetErrorLogIn() {
-  document.getElementById('loginErrorCheck').style.display = 'none';
+  document.getElementById("loginErrorCheck").style.display = "none";
 }

@@ -85,7 +85,6 @@
   font-weight: bold;
   background-color: #ffffff;
   font-size: 21px;
-  border: 1px solid #d1d1d1;
 }
 
 .prio-button:hover {
@@ -132,14 +131,12 @@ textarea {
   background-color: #29abe2;
   border: 0.5px solid #29abe2;
   cursor: pointer;
-  box-shadow: 1px 1px 5px 1px gray;
 }
 
 .clear-button:hover {
   color: #29abe2;
   border: 0.5px solid #29abe2;
   cursor: pointer;
-  box-shadow: 1px 1px 5px 1px gray;
 }
 
 .clear-button:hover .iconCancelSvg {
@@ -489,7 +486,7 @@ input[type='checkbox'] {
   right: 0;
   left: 0;
   bottom: 0;
-  z-index: 10;
+  z-index: 11;
   background-color: rgba(0, 0, 0, 0.8);
   overflow: hidden;
 }
@@ -664,7 +661,6 @@ input[type='checkbox'] {
   .prio-button {
     width: 125px;
     font-size: 18px;
-    border: 1px solid #d1d1d1;
   }
 
   .subtask-container {
@@ -697,6 +693,8 @@ input[type='checkbox'] {
   .add-task-container {
     display: flex;
     flex-direction: column;
+    height: 60vh;
+    overflow-y: auto
   }
 
   .headline-task {
@@ -714,7 +712,6 @@ input[type='checkbox'] {
     margin-left: 0px;
     align-items: center;
     margin-top: 180px;
-    margin-bottom: 90px;
   }
 
   .required-field-text {
@@ -737,7 +734,6 @@ input[type='checkbox'] {
   .second-task-input-container {
     width: 440px;
     gap: 12px;
-    margin-bottom: 100px;
   }
 
   .second-task-input-container input {
@@ -832,6 +828,7 @@ input[type='checkbox'] {
     width: 100%;
     align-items: center;
     margin-top: 10px;
+    height: 45vh;
   }
 
   #date {
@@ -872,9 +869,7 @@ input[type='checkbox'] {
   }
 
   .btn-task {
-    height: 32px;
-    width: 130px;
-    font-size: 12px;
+    width: 120px;
   }
 
   .select-user-text {

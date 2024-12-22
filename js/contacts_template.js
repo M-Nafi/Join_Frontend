@@ -8,27 +8,27 @@
  * @return {void} This function does not return anything.
  */
 function renderListContact() {
-  let contentList = document.getElementById('divList');
-  contentList.innerHTML = '';
+  let contentList = document.getElementById("divList");
+  contentList.innerHTML = "";
   sortContacts();
   for (let i = 0; i < contacts.length; i++) {
     const contact = contacts[i];
     if (
       i == 0 ||
-      contact['name'].slice(0, 1) != contacts[i - 1]['name'].slice(0, 1)
+      contact["name"].slice(0, 1) != contacts[i - 1]["name"].slice(0, 1)
     ) {
-      contentList.innerHTML += `<div class="a-z-contact-list ">${contact['name']
+      contentList.innerHTML += `<div class="a-z-contact-list ">${contact["name"]
         .slice(0, 1)
         .toUpperCase()}</div>`;
     }
     contentList.innerHTML += /*html*/ `
       <div id="contactListContainer${i}" class="contact-list-container" onclick="showDetailContact(${i})">
       <div class="contact-emblem" style="background-color: ${
-        contact['color']
-      }"> ${renderEmblem(contact['name'])} </div>
+        contact["color"]
+      }"> ${renderEmblem(contact["name"])} </div>
       <div class="contact-info-container">
-          <p>${contact['name']}</p>
-          <a>${contact['email']}</a>
+          <p>${contact["name"]}</p>
+          <a>${contact["email"]}</a>
       </div>
       </div>
       `;
@@ -43,28 +43,35 @@ function renderListContact() {
 function renderContactinList(i) {
   return /*html*/ `
     <div class="headline-contact">
-        <div class="emblem-info" id="emblem" style="background-color: ${contacts[i]['color']}">${contacts[i]['emblem']}</div>
+      <div class="emblem-info-container">
+        <div class="emblem-info" id="emblem" style="background-color: ${contacts[i]["color"]}">${contacts[i]["emblem"]}</div>
         <div class="name-contact">
-            ${contacts[i]['name']}
+            <p id="name_contact">${contacts[i]["name"]}</p>
           <div class="a-name-contact" id="a_nameContact">
               <a class="dflex-align-center" onclick="openDialog(false, ${i})"><img class="img-btns" src="../assets/icons/edit-contacts_icon.svg"> Edit</a>
               <a class="dflex-align-center" onclick="deleteContact(${i})"><img class="img-btns" src="../assets/icons/delete_contact_icon.svg"> Delete</a>
           </div>
         </div>
-    </div>
-    <div class="info">Contact Information</div>
-    <div class="contact-information">
-      <div><b>Email</b></div>
-      <a id="email_contact">${contacts[i]['email']}</a>
-      <div><b>Phone</b></div>
-      <div id="phone_contact">${contacts[i]['phone']}</div> 
-    
-      <div class="mobile-contact" onclick="openMobileDialog()"><img class="arrow" src="..//assets/icons/menu_ContactOptions.svg" />
+      </div>
+      <div class="mobile-contact">
+        <div class="three-dots-button" onclick="toggleActive(this)">
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+        </div>
         <div class="mobile-dropdown-menu" id="amobile_nameContact" style="display:none">
           <a class="dflex-align-center" onclick="openDialog(false, ${i})"><img class="img-btns" src="../assets/icons/edit-contacts_icon.svg"> Edit</a>
           <a class="dflex-align-center" onclick="deleteContact( ${i})"><img class="img-btns" src="../assets/icons/delete_contact_icon.svg"> Delete</a>
         </div>
       </div>
+    </div>
+    <div class="info">Contact Information</div>
+    <div class="contact-information">
+      <div><b>Email</b></div>
+      <a id="email_contact">${contacts[i]["email"]}</a>
+      <div><b>Phone</b></div>
+      <div id="phone_contact">${contacts[i]["phone"]}</div> 
+    
     </div> `;
 }
 
@@ -80,7 +87,8 @@ function renderContactDialog(title1, functionNew, btnText) {
   <div class="dialog">
   <div class="join-add-contact">
   <button class="button-mobile-close" onclick="closeDialog()"><img class="imgBtns"
-  src="../assets/icons/closeWhite_icon.svg"></button>
+    src="../assets/icons/closeWhite_icon.svg">
+  </button>
     <img class="icon-join-contact" src="../assets/icons/joinWhite.svg">
     <div class="contact-details-title">${title1}</div>
     <div id="textAdd" class="add-text">Task are better with a team</div>

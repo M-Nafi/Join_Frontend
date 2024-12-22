@@ -27,7 +27,8 @@ h3 {
 }
 
 ::-webkit-scrollbar {
-  width: 3px;
+  height: 5px;
+  width: 5px;
 }
 
 /* Track */

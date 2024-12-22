@@ -17,10 +17,11 @@ async function showBigUsersEmblem(cardId) {
   bigUsersEmblem.innerHTML = '';
 
   const task = tasks.find((t) => t.cardId === cardId);
-  if (task && task.cardId) {
-    if (task.contacts && task.contacts.length > 0) {
-      for (let contact of task.contacts) {
-          bigUsersEmblem.innerHTML += renderBigEmblemUsers(contact);
+  if (task) {
+    if (task.user && task.user.length > 0) {
+      for (let i = 0; i < task.user.length; i++) {
+        user = task.user[i].user;
+          bigUsersEmblem.innerHTML += renderBigEmblemUsers(user);
       }
     }
   }

@@ -154,15 +154,15 @@ function checkThisSubtaskHTML(i) {
  * @param {number} i - The index of the user in the list.
  * @return {string} The HTML for the edit user element.
  */
-function renderEditContactsHTML(contact, i) {
+function renderEditUsersHTML(user, i) {
   return /*html*/ `
             <label for="editCheckbox${i}">
                 <li class="edit-contactlist" id="edit-contactlist${i}">        
-                    <div tabindex="0" class="edit-emblem" style="background-color: ${contact.color}">
-                      ${contact.emblem}
+                    <div tabindex="0" class="edit-emblem" style="background-color: ${user.color}">
+                      ${user.emblem}
                     </div> 
-                    <div class="edit-contact-name" >${contact.name}</div> 
-                    <input class="edit-user-checkbox" onclick="showEditUsersEmblem(event)" type="checkbox" id="editCheckbox${i}" data-userid="${contact.id}">          
+                    <div class="edit-contact-name" >${user.username}</div> 
+                    <input class="edit-user-checkbox" onclick="showEditUsersEmblem(event)" type="checkbox" id="editCheckbox${i}" data-userid="${user.id}">          
                 </li>
             </label> `;
 }
@@ -172,11 +172,11 @@ function renderEditContactsHTML(contact, i) {
  * @param {Object} user - The user object containing information about the user.
  * @return {string} The HTML for the edit emblem user element.
  */
-function renderEditEmblemContacts(contact) {
+function renderEditEmblemUsers(user) {
   return /*html*/ `
       <div class="edit-single-user">
-          <div class="edit-emblem" style="background-color: ${contact.color}" id="${contact.id}">
-            ${contact.emblem}
+          <div class="edit-emblem" style="background-color: ${user.color}" id="${user.id}">
+            ${user.emblem}
           </div>
         </div>
       `;
@@ -207,7 +207,7 @@ function renderGreyEmblem(remainingCount) {
  */
 function renderEmblemUsers(user) {
   return /*html*/ `
-          <div class="edit-emblem" style="background-color: ${user.color}" id="${user.userId}">
+          <div class="edit-emblem" style="background-color: ${user.color}" id="${user.id}">
           ${user.emblem}
         </div>  `;
 }

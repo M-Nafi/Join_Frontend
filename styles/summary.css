@@ -29,7 +29,6 @@
   background-color: #ffffff;
   text-decoration: none;
   color: black;
-  box-shadow: 1px 1px 5px 1px lightgray;
 }
 
 .summary-card-big {
@@ -42,7 +41,6 @@
   border-radius: 30px;
   text-decoration: none;
   color: black;
-  box-shadow: 1px 1px 5px 1px lightgray;
 }
 
 .summary-card-small {
@@ -53,7 +51,6 @@
   background-color: #ffffff;
   text-decoration: none;
   color: black;
-  box-shadow: 1px 1px 5px 1px lightgray;
 }
 
 .icon-container {
@@ -95,7 +92,6 @@
 }
 
 .summary-card:hover {
-  scale: 1.1;
   background-color: #2a3647;
   color: #ffffff;
 }
@@ -110,7 +106,6 @@
 }
 
 .summary-card-small:hover {
-  scale: 1.1;
   background-color: #2a3647;
   color: #ffffff;
 }
@@ -127,7 +122,6 @@
 }
 
 .summary-card-big:hover {
-  scale: 1.1;
   background-color: #2a3647;
   color: #ffffff;
 }
@@ -472,6 +466,7 @@
 
   .summary-card-small {
     width: 110px;
+    height: 100px;
   }
 
   .number-container {
@@ -557,7 +552,7 @@
     opacity: 1;
   }
   50% {
-    opacity: 0.5; 
+    opacity: 0.5; /* Halbtransparent bei 50% des Animationsverlaufs */
   }
   100% {
     opacity: 0;
@@ -569,7 +564,7 @@
     opacity: 0;
   }
   50% {
-    opacity: 0.5; 
+    opacity: 0.5; /* Halbtransparent bei 50% des Animationsverlaufs */
   }
   100% {
     opacity: 1;

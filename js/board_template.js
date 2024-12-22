@@ -101,10 +101,10 @@ function renderGreyEmblem(remainingCount) {
  * @param {Object} user - The user object containing the user's color and emblem.
  * @return {string} The HTML string representing the small user emblem.
  */
-function renderSmallUsersEmblem(contact) {
+function renderSmallUsersEmblem(user) {
   return /*html*/ `
-        <div class="small-useremblem" style="background-color: ${contact.color}" id="${contact.id}">
-        ${contact.emblem}
+        <div class="small-useremblem" style="background-color: ${user.color}" id="${user.id}">
+        ${user.emblem}
       </div>  `;
 }
 
@@ -173,13 +173,13 @@ function renderBigCardHTML(cardId) {
  * @param {Object} user - The user object containing user information.
  * @return {string} The HTML content displaying the user's emblem and name.
  */
-function renderBigEmblemUsers(contact) {
+function renderBigEmblemUsers(user) {
   return /*html*/ `
     <div class="big-single-user">
-        <div class="big-useremblem" style="background-color: ${contact.color}" id="${contact.id}">
-          ${contact.emblem}
+        <div class="big-useremblem" style="background-color: ${user.color}" id="${user.id}">
+          ${user.emblem}
         </div>  
-        <span>${contact.name}</span>
+        <span>${user.username}</span>
       </div>`;
 }
 

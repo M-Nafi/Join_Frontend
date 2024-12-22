@@ -37,27 +37,23 @@ function getGreeting(isGuest) {
  */
 async function displayGreeting() {
   let currentUser = await getUserLogin();
-  let isGuest = currentUser.userId == 0;
-  document.getElementById('greetText').innerHTML = getGreeting(isGuest);
-}
-async function displayGreeting() {
-  let currentUser = await getUserLogin();
-  let isGuest = currentUser.userId == 0;
+  console.log(currentUser)
+  let isGuest = currentUser.id == 1;
   document.getElementById('greetText').innerHTML = getGreeting(isGuest);
 }
 
 /**
  * Asynchronously displays the current user's name in the HTML element with the id 'greetUserName'.
- * If the user is a guest (userId == 0), the element's innerHTML is set to an empty string.
+ * If the user is a guest (id == 1), the element's innerHTML is set to an empty string.
  * @return {Promise<void>} A Promise that resolves when the user's name has been displayed.
  */
 async function displayUser() {
   let currentUser = await getUserLogin();
   let currentUserName = document.getElementById('greetUserName');
-  if (currentUser.userId == 0) {
+  if (currentUser.id == 1) {
     currentUserName.innerHTML = ' ';
   } else {
-    currentUserName.innerHTML = currentUser.name;
+    currentUserName.innerHTML = currentUser.username;
   }
 }
 

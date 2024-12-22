@@ -1,5 +1,6 @@
 .edit-add-task {
   width: 550px;
+  height: 750px;
   background-color: #ffffff;
   border-radius: 30px;
   padding: 48px 40px 48px 40px;
@@ -79,7 +80,6 @@
   font-weight: bold;
   background-color: #ffffff;
   font-size: 21px;
-  border: 1px solid #d1d1d1;
 }
 
 .edit-priobtn:hover {

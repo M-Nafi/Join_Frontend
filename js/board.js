@@ -4,9 +4,11 @@
  */
 async function initBoard() {
   includeHTML();
-  await contactsArray();
+  await usersArray();
   await tasksArray();
   await updateHTML();
+  console.log(tasks);
+  console.log(users);
 }
 
 let boardEdit = [];
@@ -91,10 +93,10 @@ function renderUserEmblems(task, container) {
   let renderedCount = 0;
   let extraCount = 0;
 
-  if (task.contacts && task.contacts.length > 0) {
-    for (let contact of task.contacts) {
+  if (task.user && task.user.length > 0) {
+    for (let user of task.user) {
       if (renderedCount < 5) {
-        container.innerHTML += renderSmallUsersEmblem(contact);
+        container.innerHTML += renderSmallUsersEmblem(user.user);
         renderedCount++;
       } else {
         extraCount++;
@@ -116,7 +118,7 @@ function renderSmallSubtasks(task) {
   if (task.subtask && task.subtask.length > 0) {
     for (let j = 0; j < task.subtask.length; j++) {
       const subtask = task.subtask[j];
-      smallSubtask.innerHTML += `<div>${subtask}</div> `; // Append each subtask's HTML to the string
+      smallSubtask.innerHTML += `<div>${subtask}</div> `; 
     }
   }
 }
@@ -150,7 +152,8 @@ async function moveTo(event, status) {
   const task = tasks.find((t) => t.cardId == currentDraggedElement);
   task.status = status;
   removeHighlight(status);
-  await patchData(`tasks/${task.cardId}`, task);
+  console.log(task);
+  await patchData(`tasks/${task.cardId}`, task, true);
   await updateHTML();
 }
 
@@ -230,25 +233,9 @@ async function deleteTask(cardId) {
   for (let key in tasksJSON) {
     let task = tasksJSON[key];
     if (task.cardId == cardId) {
-      await deleteData(`tasks/${task.cardId}`);
+      await deleteData(`tasks/${task.cardId}`, true);
     }
   }
-}
-
-/**
- * Retrieves the selected user IDs from checkboxes in the '.contactlist' element.
- * @return {Array} An array of user IDs that are selected.
- */
-function getSelectedUserIds() {
-  let checkboxes = document.querySelectorAll(
-    '.contactlist input[type="checkbox"]:checked'
-  );
-  let selectedUserIds = [];
-  for (let checkbox of checkboxes) {
-    let userId = checkbox.getAttribute("data-userid");
-    selectedUserIds.push(userId);
-  }
-  return selectedUserIds;
 }
 
 /**
@@ -277,7 +264,8 @@ async function updateSubtasks(cardId, isubtask, value) {
     if (task.cardId == cardId) {
       let subtaskId = task.subtasks[isubtask].id;
       let patchUrl = `tasks/${task.cardId}/subtasks/${subtaskId}`;
-      let response = await patchData(patchUrl, { checked: value });
+      let response = await patchData(patchUrl, { checked: value }, true);
+      console.log(response);
     }
   }
 }

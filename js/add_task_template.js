@@ -3,15 +3,15 @@
  *
  * @return {void} This function does not return a value.
  */
-function renderContactsHTML(contact, i) {
+function renderUsersHTML(user, i) {
   return /*html*/ `
         <label for="checkbox${i}">
             <li class="contact-list" id="contactList${i}">        
-                <div tabindex="0" class="emblem" style="background-color: ${contact.color}">
-                  ${contact.emblem}
+                <div tabindex="0" class="emblem" style="background-color: ${user.color}">
+                  ${user.emblem}
                 </div> 
-                <div class="contact-name" >${contact.name}</div> 
-                <input class="user-checkbox" onclick="showUsersEmblem()" type="checkbox" id="checkbox${i}" data-userid="${contact.id}">          
+                <div class="contact-name" >${user.username}</div> 
+                <input class="user-checkbox" onclick="showUsersEmblem()" type="checkbox" id="checkbox${i}" data-userid="${user.id}">          
             </li>
         </label> `;
 }
@@ -24,10 +24,10 @@ function renderContactsHTML(contact, i) {
  * @param {string} contact.emblem - The emblem icon to be displayed.
  * @return {string} The HTML string representing the emblem.
  */
-function renderEmblemUsers(contact) {
+function renderEmblemUsers(user) {
   return /*html*/ `
-        <div class="emblem" style="background-color: ${contact.color}" id="${contact.id}">
-        ${contact.emblem}
+        <div class="emblem" style="background-color: ${user.color}" id="${user.id}">
+        ${user.emblem}
       </div>  `;
 }
 
