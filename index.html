@@ -40,11 +40,20 @@
         <form id="formLogin" class="form-login" onsubmit="return doLogin(event)">
           <h1 class="title underline">Log in</h1>
           <div class="groupLogin-input">
-            <input class="inputs style_InputTypography1" type="email" id="email"
-              style="background-image: url(./assets/icons/mail_icon.svg)" placeholder="Email" required />
-            <input class="inputs style_InputTypography1" id="password" onclick="showPassword()"
-              style="background-image: url(./assets/icons/lock_icon.svg)" placeholder="Password"
-              onkeyup="resetErrorLogIn()" required />
+            <div class="inputs style_InputTypography1">
+              <input  type="email" id="email"
+              placeholder="Email" required />
+              <img src="./assets/icons/mail_icon.svg" alt="">
+            </div>
+            <div class="inputs style_InputTypography1">
+              <input id="password" 
+                type="password"
+                placeholder="Password"
+                onkeyup="resetErrorLogIn()" required />
+              <img src="../assets/icons/visibility.svg" 
+                onclick="showPassword()" 
+                alt="Show Password" />
+            </div>
             <div class="confirm-error">
               <span id="loginErrorCheck" class="pw-error-check"></span>
             </div>

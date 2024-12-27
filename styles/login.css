@@ -81,6 +81,44 @@ body {
   line-height: 24px;
 }
 
+.inputs {
+  display: flex;
+  width: 100%;
+  gap: 10px;
+  border: 1px solid #d1d1d1;
+  border-radius: 10px;
+  color: black;
+  cursor: pointer;
+  position: relative;
+}
+
+.inputs:hover {
+  border: 1px solid #29abe2;
+}
+
+.inputs:focus-within {
+  border: 1px solid #29abe2;
+}
+
+.inputs img {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.inputs input {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  width: 95%;
+  padding: 12px 21px 12px 21px;
+  border-radius: 10px;
+}
+
 .style_InputTypography2 {
   font-weight: 400;
   font-size: 16px;
@@ -192,18 +230,6 @@ body {
   border: 1px solid #d1d1d1;
   border-radius: 10px;
   padding: 12px 21px 12px 21px;
-}
-
-.inputs {
-  background-repeat: no-repeat;
-  background-position: right 10px center;
-  width: 100%;
-  gap: 10px;
-  border: 1px solid #d1d1d1;
-  border-radius: 10px;
-  padding: 12px 21px 12px 21px;
-  color: black;
-  cursor: pointer;
 }
 
 .box-remember {
@@ -582,7 +608,7 @@ form label {
     height: 200px;
   }
   100% {
-    top: 30px;
+    top: 15px;
     left: 30px;
     transform: translate(0, 0);
     width: 100px;
@@ -614,7 +640,7 @@ form label {
     opacity: 0;
   }
   100% {
-    top: 30px;
+    top: 15px;
     left: 30px;
     transform: translate(0, 0);
     width: 50px;

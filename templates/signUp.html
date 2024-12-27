@@ -27,16 +27,26 @@
                 <h1 class="title underline">Sign up</h1>
             </div>
             <div class="groupSignUp-input">
-                <input class="inputs style_InputTypography1" type="text" id="name"
-                    style="background-image: url(../assets/icons/personInput_icon.svg)" placeholder="Name" required>
-                <input class="inputs style_InputTypography1" type="email" id="email"
-                    style="background-image: url(../assets/icons/mail_icon.svg)" placeholder="Email" required>
-                <input class="inputs style_InputTypography1" id="password"
-                    style="background-image: url(../assets/icons/lock_icon.svg)" placeholder="Password"
-                    onclick="showPassword()" onkeyup="resetError()" required>
-                <input class="inputs style_InputTypography1" name="confirmPass"
-                    style="background-image: url(../assets/icons/lock_icon.svg)" id="passwordConfirm"
-                    placeholder="Confirm Password" onkeyup="resetError()" onclick="showPasswordConf()" required>
+                <div class="inputs style_InputTypography1">
+                    <input type="text" id="name" placeholder="Name" required>
+                    <img src="../assets/icons/personInput_icon.svg" alt="">
+                </div>
+                <div class="inputs style_InputTypography1">
+                    <input type="email" id="email" placeholder="Email" required>
+                    <img src="../assets/icons/mail_icon.svg" alt="">
+                </div>
+                <div class="inputs style_InputTypography1">
+                    <input id="password" type="password" placeholder="Password" onkeyup="resetError()" required>
+                    <img src="../assets/icons/visibility.svg" onclick="showPassword()" alt="Show Password">
+                </div>
+                <div class="inputs style_InputTypography1">
+                    <input name="confirmPass" type="password" id="passwordConfirm"
+                    placeholder="Confirm Password" onkeyup="resetError()" required>
+                    <img src="../assets/icons/visibility.svg" onclick="showPasswordConf()" alt="Show Password">
+                </div>
+                
+                
+                
                 <div class="confirm-error">
                     <span id="pwErrorCheck" class="pw-error-check"></span>
                 </div>

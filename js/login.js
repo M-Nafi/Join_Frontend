@@ -219,38 +219,48 @@ function errorLogin() {
 async function getGuestLogin(event) {
   event.preventDefault();
   try {
-    const response = await postData("guest-login", {}, false);
-    const token = response.token;
-    sessionStorage.setItem("token", token);
-    location.href = "./templates/summary.html";
+      const response = await postData("guest-login", {}, false);
+      const token = response.token;
+      sessionStorage.setItem("token", token);
+      sessionStorage.setItem("isGuest", "true");
+      location.href = "./templates/summary.html";
   } catch (error) {
-    console.error("Fehler beim Gast-Login:", error);
-    alert("Gast-Login fehlgeschlagen. Bitte versuchen Sie es erneut.");
+      console.error("Fehler beim Gast-Login:", error);
+      alert("Gast-Login fehlgeschlagen. Bitte versuchen Sie es erneut.");
   }
 }
 
 function showPassword() {
-  let image = document.getElementById("password");
-  if (image.type == "password") {
-    image.style.backgroundImage = "url('../assets/icons/visibility.svg')";
-    image.type = "text";
+  const passwordInput = document.getElementById("password");
+  const toggleIcon = document.querySelector("#password + img");
+  
+  if (passwordInput.type === "password") {
+    passwordInput.type = "text";
+    toggleIcon.src = "../assets/icons/visibility_off.svg";
+    toggleIcon.alt = "Hide Password";
   } else {
-    image.style.backgroundImage = "url('../assets/icons/visibility_off.svg')";
-    image.type = "password";
+    passwordInput.type = "password";
+    toggleIcon.src = "../assets/icons/visibility.svg";
+    toggleIcon.alt = "Show Password";
   }
 }
+
 
 /**
  * Function to toggle password visibility.
  */
 function showPasswordConf() {
-  let image = document.getElementById("passwordConfirm");
-  if (image.type == "password") {
-    image.style.backgroundImage = "url('../assets/icons/visibility.svg')";
-    image.type = "text";
+  const passwordInput = document.getElementById("passwordConfirm");
+  const toggleIcon = document.querySelector("#passwordConfirm + img");
+  
+  if (passwordInput.type === "password") {
+    passwordInput.type = "text";
+    toggleIcon.src = "../assets/icons/visibility.svg";
+    toggleIcon.alt = "Hide Password";
   } else {
-    image.style.backgroundImage = "url('../assets/icons/visibility_off.svg')";
-    image.type = "password";
+    passwordInput.type = "password";
+    toggleIcon.src = "../assets/icons/visibility_off.svg";
+    toggleIcon.alt = "Show Password";
   }
 }
 

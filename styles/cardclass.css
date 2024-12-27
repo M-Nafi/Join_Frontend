@@ -119,6 +119,11 @@
   cursor: pointer;
 }
 
+.big-delete:hover {
+  filter: invert(60%) sepia(88%) saturate(1665%) hue-rotate(165deg) brightness(93%) contrast(89%);
+  cursor: pointer;
+}
+
 .big-seperator {
   width: 0px;
   height: 24px;
@@ -130,6 +135,11 @@
 .big-edit {
   display: flex;
   align-items: center;
+  cursor: pointer;
+}
+
+.big-edit:hover {
+  filter: invert(60%) sepia(88%) saturate(1665%) hue-rotate(165deg) brightness(93%) contrast(89%);
   cursor: pointer;
 }
 

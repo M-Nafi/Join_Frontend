@@ -46,15 +46,6 @@ async function renderBigSubtasks(cardId) {
 
 /**
  * Prevents the default event propagation.
- *
- * @return {void} This function does not return a value.
- */
-function dontClose() {
-  event.stopPropagation();
-}
-
-/**
- * Prevents the default event propagation.
  * @return {void} This function does not return a value.
  */
 function dontCloseTask() {

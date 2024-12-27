@@ -11,6 +11,10 @@ async function initBoard() {
   console.log(users);
 }
 
+function dontClose(event) {
+  event.stopPropagation();
+}
+
 let boardEdit = [];
 let status = ["toDo", "in Progress", "awaitFeedback", "done"];
 let currentDraggedElement;
@@ -118,7 +122,7 @@ function renderSmallSubtasks(task) {
   if (task.subtask && task.subtask.length > 0) {
     for (let j = 0; j < task.subtask.length; j++) {
       const subtask = task.subtask[j];
-      smallSubtask.innerHTML += `<div>${subtask}</div> `; 
+      smallSubtask.innerHTML += `<div>${subtask}</div> `; // Append each subtask's HTML to the string
     }
   }
 }
@@ -149,11 +153,9 @@ function allowDrop(event) {
  */
 async function moveTo(event, status) {
   event.stopPropagation();
-  const task = tasks.find((t) => t.cardId == currentDraggedElement);
-  task.status = status;
+  const taskId = currentDraggedElement;
   removeHighlight(status);
-  console.log(task);
-  await patchData(`tasks/${task.cardId}`, task, true);
+  await patchData(`tasks/${taskId}`, { status: status }, true);
   await updateHTML();
 }
 

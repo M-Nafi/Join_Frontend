@@ -401,7 +401,7 @@ async function updateEditBoard(cardId, updatedTask) {
   for (let key in tasksJSON) {
     let task = tasksJSON[key];
     if (task.cardId == cardId) {
-      await patchData(`tasks/${task.cardId}`, updatedTask);
+      await putData(`tasks/${task.cardId}`, updatedTask);
     }
   }
 }

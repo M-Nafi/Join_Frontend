@@ -3,7 +3,6 @@
   flex-direction: row;
   background-color: #f6f7f8;
   height: 100vh;
-  width: 100%;
   margin-left: 200px;
 }
 
@@ -60,12 +59,6 @@
 .button-text-style {
   font-weight: 700;
   font-size: 21px;
-  line-height: 24px;
-}
-
-.inputfield-text-style {
-  font-weight: 400;
-  font-size: 20px;
   line-height: 24px;
 }
 
@@ -180,6 +173,12 @@
   display: none;
   cursor: pointer;
   position: relative;
+}
+
+.mobile-returnback img:hover {
+  cursor: pointer;
+  background-color: #d2d2d2;
+  border-radius: 50%;
 }
 
 .contact-details-header {
@@ -478,7 +477,8 @@
 }
 
 .button-close:hover {
-  background-color: #f0f0f0;
+  cursor: pointer;
+  background-color: #d2d2d2;
   border-radius: 50%;
 }
 
@@ -507,12 +507,10 @@
   0% {
     margin-left: 100%;
   }
-
   40%,
   60% {
     margin-left: calc(50% - 150px);
   }
-
   100% {
     margin-left: 100%;
   }
@@ -527,6 +525,11 @@
   border: none;
   background-color: #2a3647;
   cursor: pointer;
+}
+
+.button-mobile-close img:hover {
+  cursor: pointer;
+  scale: 1.1;
 }
 
 .white-arrow {
@@ -737,9 +740,6 @@
     margin-bottom: 25px;
   }
 
-  .inputfield-text-style {
-    font-size: 18px;
-  }
 }
 
 @media (max-width: 710px) {
@@ -805,9 +805,6 @@
     margin: 12px 0px 12px 0px;
   }
 
-  .inputfield-text-style {
-    font-size: 14px;
-  }
 }
 
 @media (max-width: 395px) {
