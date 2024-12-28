@@ -5,6 +5,8 @@
   border-radius: 30px;
   padding: 48px 40px 48px 40px;
   overflow-y: auto;
+  box-shadow: 0px 0px 10px rgb(255, 255, 255);
+
 }
 
 .edit-add-task-container {
@@ -159,11 +161,12 @@ textarea {
   justify-content: center;
   width: 32px;
   height: 32px;
+  border: 1px solid black;
   border-radius: 50%;
-  background-color: #29abe2;
   color: white;
   font-size: 12px;
   margin-left: -8px;
+  text-shadow: 1px 1px 2px rgb(0, 0, 0);
 }
 
 .edit-contactlist {
@@ -175,6 +178,7 @@ textarea {
   cursor: pointer;
   padding: 0px 20px;
   border-radius: 10px;
+  border: 1px solid #d1d1d1;
 }
 
 .edit-contactlist:hover {

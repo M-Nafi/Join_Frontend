@@ -6,8 +6,55 @@
 async function initContact() {
   await includeHTML();
   await contactsArray();
+  await loggedUser();
+  sortContacts();
   renderListContact();
-  console.log(contacts);
+  console.log(profile);
+}
+
+/**
+ * Renders the list of contacts asynchronously.
+ * 1. Retrieves the user object.
+ * 2. Clears the innerHTML of the user container and the list contact container.
+ * 3. If the user is logged in, renders the user container with the 'current-user' class.
+ * 4. Sorts the contacts array by name.
+ * 5. Calls renderContactsWithoutUser to render the list of contacts.
+ * @return {Promise<void>} A promise that resolves when the rendering is complete.
+ */
+async function renderListContact() {
+  let userContainer = document.getElementById("loggedUserContainer");
+  let listContact = document.getElementById("divList");
+
+  listContact.innerHTML = "";
+  userContainer.innerHTML = "";
+
+  if (profile && profile.username) {
+    userContainer.innerHTML = renderUserContainerHTML(profile, true);
+  }
+  sortContacts();
+  renderContactsWithoutUser(listContact, profile);
+}
+
+/**
+ * Renders contacts in the list excluding the specified user, grouping them by the first letter
+ * of their name. If the first letter changes, a header is added to the list.
+ * @param {HTMLElement} listContact - The HTML element where the contacts will be rendered.
+ * @param {Object} user - The user object to exclude from the rendering.
+ */
+function renderContactsWithoutUser(listContact) {
+  let currentLetter = "";
+  for (let i = 0; i < contacts.length; i++) {
+    let contact = contacts[i];
+  
+    let firstLetter = contact.name.charAt(0).toUpperCase();
+    if (firstLetter !== currentLetter) {
+      currentLetter = firstLetter;
+      listContact.innerHTML += `
+        <div class="contact-letter-header">${currentLetter}</div>
+      `;
+    }
+    listContact.innerHTML += renderListContactHTML(contact, i);
+  }
 }
 
 /**
@@ -24,50 +71,58 @@ async function newContact(event) {
     email: document.getElementById("emailContact").value,
     phone: document.getElementById("phoneContact").value,
     emblem: renderEmblem(nameContact),
-    color: colorRandom(),
+    color: colorRandom()
   };
-  contacts.push(newContact);
-  await postData("contacts", newContact, true);
-  showNewContactDetails(newContact);
-  console.log(newContact);
+
+  let saveContact = await postData("contacts", newContact, true);
+  contacts.push(saveContact);
+  sortContacts();
+  await renderListContact();
+  closeDialog();
+  showDetailContact(saveContact.id);
+  cleanContactControls();
+  console.log(saveContact);
 }
 
 /**
- * Asynchronously edits a contact by updating its properties and saving the changes to the server.
- * @param {Event} event - The event object for the form submission.
- * @param {number} i - The index of the contact to be edited in the contacts array.
- * @return {Promise<void>} A promise that resolves when the contact is successfully edited and saved.
+ * Edits an existing contact.
+ * @param {Event} event - Das Form-Event.
+ * @param {number} index - Der Index des Kontakts im Array.
  */
-async function editContact(event, i) {
+async function editContact(event, index) {
   event.preventDefault();
-  contactEdit = contacts[i];
-  contactEdit["name"] = document.getElementById("nameContact").value;
-  contactEdit["email"] = document.getElementById("emailContact").value;
-  contactEdit["phone"] = document.getElementById("phoneContact").value;
-  contactEdit["emblem"] = renderEmblem(
-    document.getElementById("nameContact").value
-  );
-  await patchData(`contacts/${contactEdit.id}`, contactEdit, true);
+
+  let contactEdit = contacts[index];
+  contactEdit.name = document.getElementById("nameContact").value;
+  contactEdit.email = document.getElementById("emailContact").value;
+  contactEdit.phone = document.getElementById("phoneContact").value;
+  contactEdit.emblem = renderEmblem(contactEdit.name);
+
+  await putData(`contacts/${contactEdit.id}`, contactEdit, true);
+  sortContacts();
+  renderListContact();
+  showDetailContact(contactEdit.id);
   closeDialog();
   cleanContactControls();
-  renderListContact();
-  showDetailContact(i);
 }
 
 /**
- * Asynchronously deletes a contact by removing it from the contacts array, clearing the details div,
- * deleting the contact from the server, and re-rendering the list of contacts. If the window width is
- * less than or equal to 710 pixels, it also navigates back to the mobile contact list.
- * @param {number} i - The index of the contact to be deleted in the contacts array.
- * @return {Promise<void>} A promise that resolves when the contact is successfully deleted.
+ * Deletes a contact by removing it from the contacts array, clearing the details div,
+ * deleting the contact from the server, and re-rendering the list of contacts.
+ * @param {number} i - Der Index des Kontakts im Array.
  */
 async function deleteContact(i) {
   let contactDelete = contacts[i];
   contacts.splice(i, 1);
   document.getElementById("divDetails").innerHTML = "";
+
   try {
     await deleteData(`contacts/${contactDelete.id}`, true);
-  } catch (error) {}
+  } catch (error) {
+    console.error("Fehler beim Löschen des Kontakts:", error);
+  }
+
+  sortContacts();
   renderListContact();
   if (window.innerWidth <= 710) {
     backMobileContListe();
@@ -80,7 +135,7 @@ async function deleteContact(i) {
  * @return {string} The generated emblem.
  */
 function renderEmblem(name) {
-  let aux = name.split(" ");
+  let aux = name.split(" ");  
   let capital = "";
   for (let j = 0; j < aux.length; j++) {
     if (j <= 1) {
@@ -95,35 +150,46 @@ function renderEmblem(name) {
  * @return {string} The randomly generated color.
  */
 function colorRandom() {
-  return `#${Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0')}`;
+  return `#${Math.floor(Math.random() * 16777215)
+    .toString(16)
+    .padStart(6, "0")}`;
 }
 
 /**
- * Sorts the contacts array in ascending order based on the contact's name.
+ * Sorts the contacts array alphabetically by name and groups them by the first letter.
+ * Adds a property 'group' to each contact representing the first letter of their name.
  * @return {void} This function does not return anything.
  */
 function sortContacts() {
-  contacts = contacts.sort((a, b) => {
-    if (a.name > b.name) {
-      return 1;
-    }
-    if (a.name < b.name) {
-      return -1;
-    }
-    return 0;
+  contacts.sort((a, b) => a.name.localeCompare(b.name));
+
+  contacts.forEach(contact => {
+    contact.group = contact.name.charAt(0).toUpperCase();
   });
 }
 
 /**
- * Displays detailed information about a specific contact.
- * @param {number} i - The index of the contact in the contacts array.
- * @return {void} This function does not return anything.
+ * Displays detailed information about a specific contact by ID.
+ * @param {number} id - The unique ID of the contact.
+ * @return {void}
  */
-function showDetailContact(i) {
-  removeSelectedClassFromAllContacts();
-  addSelectedClassToCurrentContact(i);
-  displayContactDetails(i);
+function showDetailContact(id) {
+  if (profile == id);
+  let contact = contacts.find((c) => c.id === id);
+  if (contact) {
+    removeSelectedClassFromAllContacts();
+    displayContactDetails(contact);
+    addSelectedClassToCurrentContact(id);
+  } 
 }
+
+// async function showDetailUser(id) {
+//   if (profile.id == id) {
+//     removeSelectedClassFromAllContacts();
+//     displayContactDetails(profile);
+//     addSelectedClassToCurrentContact(profile.id);
+//   } 
+// }
 
 /**
  * Removes the 'contact-list-container-selected' class from all contact list containers.
@@ -131,69 +197,80 @@ function showDetailContact(i) {
  * @return {void} This function does not return anything.
  */
 function removeSelectedClassFromAllContacts() {
-  let allContactContainers = document.querySelectorAll(
-    ".contact-list-container"
-  );
+  let allContactContainers = document.querySelectorAll(".contact-list-container");
   for (let i = 0; i < allContactContainers.length; i++) {
     let container = allContactContainers[i];
     container.classList.remove("contact-list-container-selected");
   }
+  let userContainer = document.getElementById("loggedUserContainer");
+  userContainer.classList.remove("contact-list-container-selected");
 }
 
 /**
  * Adds the 'contact-list-container-selected' class to the currently selected contact.
- * @param {number} i - The index of the contact in the contacts array.
- * @return {void} This function does not return anything.
+ * @param {number} id - The unique ID of the contact.
+ * @return {void}
  */
-function addSelectedClassToCurrentContact(i) {
-  let contactListContainer = document.getElementById(
-    `contactListContainer${i}`
-  );
-  contactListContainer.classList.add("contact-list-container-selected");
+async function addSelectedClassToCurrentContact(id) {
+  // let user = await loadData("user");
+  if (profile.id == id) {
+    let userContainer = document.getElementById("loggedUserContainer");
+    userContainer.classList.add("contact-list-container-selected");
+  } else if (contacts.find((c) => c.id === id)) {
+    let contactListContainer = document.getElementById(`contact-${id}`);
+    contactListContainer.classList.add("contact-list-container-selected");
+  }
 }
+
+  
+  
+//   if (contactListContainer) {
+    
+//   } else {
+//     console.error(`Container for contact ID ${id} not found.`);
+//   }
+// }
 
 /**
  * Displays the details of the selected contact.
- * @param {number} i - The index of the contact in the contacts array.
- * @return {void} This function does not return anything.
+ * @param {object} contact - The contact object to display.
+ * @return {void}
  */
-function displayContactDetails(i) {
+function displayContactDetails(contact) {
   let infoContact = document.getElementById("divDetails");
-  infoContact.innerHTML = " ";
+  infoContact.innerHTML = "";
   infoContact.classList.remove("move-left");
-  infoContact.offsetWidth;
+  infoContact.offsetWidth; 
   infoContact.classList.add("move-left");
-  infoContact.innerHTML += renderContactinList(i);
+  infoContact.innerHTML += renderContactinList(contact);
   mobileDetails();
 }
 
+function openAddContactDialog() {
+  openDialog("add");
+}
+
+function openEditContactDialog() {
+  openDialog("edit");
+}
+
 /**
- * Opens a dialog box for adding or editing a contact.
- * @param {boolean} newContact - Indicates whether to open the dialog for adding a new contact or editing an existing one.
- * @param {number} i - The index of the contact in the contacts array (only used when editing an existing contact).
- * @return {void} This function does not return anything.
+ * Opens the dialog box.
+ * @param {string} mode - 'add' für einen neuen Kontakt, 'edit' für einen bestehenden Kontakt.
+ * @param {number} [index] - Der Index des Kontakts im Array (nur für 'edit' Modus).
  */
-function openDialog(newContact, i) {
+function openDialog(mode, index = null) {
   let dialog = document.getElementById("dialog");
-  dialog.classList.remove("d-none");
-  if (newContact == true) {
-    let functionNew = "newContact(event)";
-    dialog.innerHTML = renderContactDialog(
-      "Add contact",
-      functionNew,
-      "Create Contact"
-    );
+  let dialogContent = document.getElementById("dialogContent");
+
+  dialog.classList.remove("d-none"); 
+  dialogContent.innerHTML = ""; 
+
+  if (mode === "edit" && index !== null) {
+    const contact = contacts[index];
+    dialogContent.innerHTML = renderContactDialog("edit", contact, index);
   } else {
-    let contact = contacts[i];
-    let functionNew = "editContact(event," + i + ")";
-    dialog.innerHTML = renderContactDialog("Edit contact", functionNew, "Save");
-    document.getElementById(
-      "iconContact"
-    ).outerHTML = `<div class="emblem-info" id="emblemContact" style="background-color: ${contact["color"]}">${contact["emblem"]}</div>`;
-    document.getElementById("textAdd").classList.add("d-none");
-    document.getElementById("nameContact").value = contact["name"];
-    document.getElementById("emailContact").value = contact["email"];
-    document.getElementById("phoneContact").value = contact["phone"];
+    dialogContent.innerHTML = renderContactDialog("add");
   }
 }
 
@@ -209,6 +286,7 @@ function closeDialog() {
   let dialog = document.getElementById("dialog");
   dialog.classList.add("d-none");
 }
+
 /**
  * Displays the details of a newly created contact.
  * @param {Object} newContact - The newly created contact object.
@@ -217,18 +295,31 @@ function closeDialog() {
 function showNewContactDetails(newContact) {
   closeDialog();
   cleanContactControls();
-  renderListContact();
+  renderListContact();  
+  displayNewContactDetails(newContact);
   document.getElementById("contactCreated").classList.remove("d-none");
+  contactCreatedDiv();  
+}
+
+/**
+ * Displays the details of a newly created contact.
+ * Iterates over the contacts array and finds the index of the newly created contact.
+ * Clears the innerHTML of the contact details div, removes the 'move-left' class,
+ * renders the contact using renderContactinList and adds the rendered HTML to the div,
+ * and calls the mobileDetails function.
+ * @param {Object} newContact - The newly created contact object.
+ * @return {void} This function does not return a value.
+ */
+function displayNewContactDetails(newContact) {
   for (let i = 0; i < contacts.length; i++) {
     if (newContact.name == contacts[i].name) {
       let infoContact = document.getElementById("divDetails");
-      infoContact.innerHTML = " ";
-      infoContact.classList.remove("move-left");
-      infoContact.innerHTML += renderContactinList(i);
-      mobileDetails();
+      infoContact.innerHTML = " "; 
+      infoContact.classList.remove("move-left"); 
+      infoContact.innerHTML += renderContactinList(i); 
+      mobileDetails(); 
     }
   }
-  contactCreatedDiv();
 }
 
 /**
@@ -305,22 +396,32 @@ function backMobileContListe() {
 function toggleActive(button) {
   const mobileMode = document.getElementById("amobile_nameContact");
   if (!mobileMode) return;
-  button.classList.toggle('active');
-  mobileMode.style.display = button.classList.contains('active') ? 'flex' : 'none';
+  button.classList.toggle("active");
+  mobileMode.style.display = button.classList.contains("active") ? "flex" : "none";
 
   function handleOutsideClick(event) {
     if (!button.contains(event.target) && !mobileMode.contains(event.target)) {
-      button.classList.remove('active');
-      mobileMode.style.display = 'none';
-      document.removeEventListener('click', handleOutsideClick);
+      button.classList.remove("active");
+      mobileMode.style.display = "none";
+      document.removeEventListener("click", handleOutsideClick);
     }
   }
 
-  if (button.classList.contains('active')) {
+  if (button.classList.contains("active")) {
     setTimeout(() => {
-      document.addEventListener('click', handleOutsideClick);
+      document.addEventListener("click", handleOutsideClick);
     }, 0);
   } else {
-    document.removeEventListener('click', handleOutsideClick);
+    document.removeEventListener("click", handleOutsideClick);
+  }
+}
+
+/**
+ * Closes the dialog box when clicking outside.
+ */
+function closeDialog() {
+  let dialog = document.getElementById("dialog");
+  if (dialog) {
+    dialog.classList.add("d-none"); // Dialog verstecken
   }
 }

@@ -18,17 +18,42 @@ function renderEmptyBoard(status) {
  */
 function renderSmallCardHTML(task) {
   return /*html*/ `
-      <div draggable="true" ondragstart="startDragging(${task.cardId})" id="${task.cardId}" class="smallcard" onclick="showBigCard(${task.cardId}); openBigCardAnimation()">
+      <div draggable="true" ondragstart="startDragging(${task.cardId})" id="${
+    task.cardId
+  }" class="smallcard" onclick="showBigCard(${
+    task.cardId
+  }); openBigCardAnimation()">
         <div class="category">
-          <h3 style='background-color:${getBackgroundCategory(task)}'>${task.category}</h3>
-          <div class="mobileBoard" id="mobileBoard" onclick="openMobileOptions(${task.cardId}, '${task.status}', event)">
-            <img class="imgMobile" src="../assets/icons/more_vert_icon.svg"/></div>
-          <div class="amobile_boardOptions" id="amobile_boardOptions${task.cardId}" style="display:none">            
-              <p class="mobileClose"><b>Move To...</b><button class="btnClose" onclick="closeMobilOptions(event,${task.cardId})"><b>X</b></button></p>
-              <a id="moveTo_${task.cardId}_toDo" onclick="mobilemoveTo('toDo',${task.cardId},event)">To&nbsp;Do</a>
-              <a id="moveTo_${task.cardId}_inProgress" onclick="mobilemoveTo('inProgress',${task.cardId},event)">In&nbsp;Progress</a>
-              <a id="moveTo_${task.cardId}_awaitFeedback" onclick="mobilemoveTo('awaitFeedback',${task.cardId},event)">Await&nbsp;Feedback</a>
-              <a id="moveTo_${task.cardId}_done" onclick="mobilemoveTo('done',${task.cardId},event)">Done</a>
+          <h3 style='background-color:${getBackgroundCategory(task)}'>${
+    task.category
+  }</h3>
+          <div class="mobileBoard" id="mobileBoard" onclick="openMobileOptions(${
+            task.cardId
+          }, '${
+    task.status
+  }', event)"><img class="imgMobile" src="../assets/icons/more_vert_icon.svg"/></div>
+          <div class="amobile_boardOptions" id="amobile_boardOptions${
+            task.cardId
+          }" style="display:none">            
+              <p class="mobileClose"><b>Move To...</b><button class="btnClose" onclick="closeMobilOptions(event,${
+                task.cardId
+              })"><b>X</b></button></p>
+              <a id="moveTo_${task.cardId}_toDo" onclick="mobilemoveTo('toDo',${
+    task.cardId
+  },event)">To&nbsp;Do</a>
+              <a id="moveTo_${
+                task.cardId
+              }_inProgress" onclick="mobilemoveTo('inProgress',${
+    task.cardId
+  },event)">In&nbsp;Progress</a>
+              <a id="moveTo_${
+                task.cardId
+              }_awaitFeedback" onclick="mobilemoveTo('awaitFeedback',${
+    task.cardId
+  },event)">Await&nbsp;Feedback</a>
+              <a id="moveTo_${task.cardId}_done" onclick="mobilemoveTo('done',${
+    task.cardId
+  },event)">Done</a>
           </div>                        
         </div>
         <div class="title">
@@ -91,7 +116,7 @@ function renderSmallUsersEmblem(user) {
 function renderBigCardHTML(cardId) {
   let task = tasks.find((t) => t.cardId == cardId);
   return /*html*/ `
-      <div id="bigCard${task.cardId}" class="bigcard"  onclick="dontClose(event)">
+      <div id="bigCard${task.cardId}" class="bigcard"  onclick="dontClose()">
         <div class="big-header">
           <div><span class="big-task-category" style='background-color:${getBackgroundCategory(
             task
@@ -125,12 +150,16 @@ function renderBigCardHTML(cardId) {
           </div>
         </div>
         <div class="bigcard-edit">
-          <div id="bigDelete" class="big-delete" onclick="deleteTaskOfBoard(${task.cardId})">
+          <div id="bigDelete" class="big-delete" onclick="deleteTaskOfBoard(${
+            task.cardId
+          })">
             <img  src="../assets/icons/delete_contact_icon.svg" alt="">
             <span>Delete</span>
           </div>
           <div class="big-seperator"></div>
-          <div id="bigEdit" class="big-edit" onclick="editTaskOfBoard(${task.cardId})">
+          <div id="bigEdit" class="big-edit" onclick="editTaskOfBoard(${
+            task.cardId
+          })">
             <img src="../assets/icons/edit-contacts_icon.svg" alt="">
             <span>Edit</span>
           </div>

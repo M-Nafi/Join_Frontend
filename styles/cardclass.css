@@ -5,8 +5,9 @@
   gap: 24px;
   min-width: 230px;
   max-width: 230px;
-  margin-bottom: 16px;
+  margin: 16px;
   padding: 16px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 1);
   border-radius: 24px;
   cursor: pointer;
   background-color: #ffffff;
@@ -62,6 +63,8 @@
   border-radius: 30px;
   background-color: #ffffff;
   padding: 48px 40px 48px 40px;
+  box-shadow: 0px 0px 10px rgb(255, 255, 255);
+  ;
 }
 
 .big-header {
@@ -153,9 +156,11 @@
   justify-content: center;
   width: 42px;
   height: 42px;
+  border: 1px solid black;
   border-radius: 50%;
   color: white;
   font-weight: 400;
+  text-shadow: 1px 1px 2px rgb(0, 0, 0);
 }
 
 .small-usersemblem {
@@ -170,10 +175,12 @@
   margin-left: -8px;
   width: 32px;
   height: 32px;
+  border: 1px solid black;
   border-radius: 50%;
   color: white;
   font-size: 12px;
   font-weight: 400;
+  text-shadow: 1px 1px 2px rgb(0, 0, 0);
 }
 
 .grey-emblem {
@@ -251,11 +258,6 @@
   color: #f4f4f4;
 }
 
-@media (max-width: 1000px) {
-  .smallcard {
-    margin-right: 16px;
-  }
-}
 
 @media (max-width: 800px) {
   .bigcard {

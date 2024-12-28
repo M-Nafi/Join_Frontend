@@ -40,10 +40,12 @@ async function AddUser(event) {
   event.preventDefault();
   let username = document.getElementById("name").value;
   let email = document.getElementById("email").value;
+  let phone = document.getElementById("signupPhone").value;
   let password = document.getElementById("password").value;
   let confirm_password = document.getElementById("passwordConfirm").value;
 
-  let user = await createUser(username, email, password, confirm_password);
+  let user = await createUser(username, email, phone, password, confirm_password);
+  console.log("User added:", user);
   await postData("registration", user, false);
   showSignUpDialog();
   await sleep(3000);
@@ -67,10 +69,11 @@ function showPasswordError() {
  * @param {string} password - The password of the user.
  * @return {Promise<Object>} A promise that resolves to the newly created user object.
  */
-async function createUser(username, email, password, confirm_password) {
+async function createUser(username, email, phone, password, confirm_password) {
   return {
     username: username,
     email: email,
+    phone: phone,
     password: password,
     confirm_password: confirm_password,
     emblem: getEmblemUser(username),
@@ -255,11 +258,11 @@ function showPasswordConf() {
   
   if (passwordInput.type === "password") {
     passwordInput.type = "text";
-    toggleIcon.src = "../assets/icons/visibility.svg";
+    toggleIcon.src = "../assets/icons/visibility_off.svg";
     toggleIcon.alt = "Hide Password";
   } else {
     passwordInput.type = "password";
-    toggleIcon.src = "../assets/icons/visibility_off.svg";
+    toggleIcon.src = "../assets/icons/visibility.svg";
     toggleIcon.alt = "Show Password";
   }
 }

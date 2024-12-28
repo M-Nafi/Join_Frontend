@@ -56,10 +56,12 @@ body {
   border-radius: 50%;
   border: 3px solid #2a3647;
   color: #29abe2;
+  font-size: 24px;
   font-weight: bold;
   display: flex;
   align-items: center;
   justify-content: center;
+  text-shadow: 1px 1px 2px rgb(0, 0, 0);
 }
 
 .useremblem:hover {

@@ -11,10 +11,6 @@ async function initBoard() {
   console.log(users);
 }
 
-function dontClose(event) {
-  event.stopPropagation();
-}
-
 let boardEdit = [];
 let status = ["toDo", "in Progress", "awaitFeedback", "done"];
 let currentDraggedElement;

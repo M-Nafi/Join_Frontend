@@ -260,7 +260,7 @@ function showPickedUsersEmblems(cardId) {
     }
     hiddenUserIds.clear();
     if (extraCount > 0) {
-      let hiddenUsers = task.userId.slice(5);
+      let hiddenUsers = task.user.slice(5);
       for (let userId of hiddenUsers) {
         hiddenUserIds.add(userId);
       }

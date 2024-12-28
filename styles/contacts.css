@@ -3,6 +3,7 @@
   flex-direction: row;
   background-color: #f6f7f8;
   height: 100vh;
+  width: 100%;
   margin-left: 200px;
 }
 
@@ -150,11 +151,13 @@
   width: 42px;
   height: 42px;
   padding: 10px;
+  border: 1px solid black;
   border-radius: 50%;
   color: white;
   font-weight: 400;
   justify-content: center;
   text-align: center;
+  text-shadow: 1px 1px 2px rgb(0, 0, 0);
 }
 
 .contact-details-container {
@@ -256,12 +259,17 @@
 
 .headline-contact {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
-  align-items: center;
-  height: 120px;
 }
 
 .emblem-info-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.emblem-container {
   display: flex;
   align-items: center;
   gap: 12px;
@@ -277,6 +285,7 @@
   text-align: center;
   justify-items: center;
   align-content: center;
+  text-shadow: 1px 1px 2px rgb(0, 0, 0);
 }
 
 .three-dots-button {
@@ -367,6 +376,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.dialog-content {
+  z-index: 1001;
+  position: relative;
 }
 
 .d-none {
@@ -507,10 +521,12 @@
   0% {
     margin-left: 100%;
   }
+
   40%,
   60% {
     margin-left: calc(50% - 150px);
   }
+
   100% {
     margin-left: 100%;
   }
@@ -567,10 +583,6 @@
 
   .contact-details-title {
     font-size: 50px;
-  }
-
-  .headline-contact {
-    height: 80px;
   }
 
   .emblem-info {
@@ -752,6 +764,10 @@
 
   .mobile-returnback {
     display: flex;
+  }
+  
+  .emblem-info-container {
+    justify-content: space-between;
   }
 
   .mobile-contact {
