@@ -29,6 +29,7 @@
   background-color: #ffffff;
   text-decoration: none;
   color: black;
+  border: 1px solid #d1d1d1;
 }
 
 .summary-card-big {
@@ -41,6 +42,7 @@
   border-radius: 30px;
   text-decoration: none;
   color: black;
+  border: 1px solid #d1d1d1;
 }
 
 .summary-card-small {
@@ -51,6 +53,7 @@
   background-color: #ffffff;
   text-decoration: none;
   color: black;
+  border: 1px solid #d1d1d1;
 }
 
 .icon-container {

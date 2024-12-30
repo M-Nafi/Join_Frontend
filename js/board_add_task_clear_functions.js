@@ -4,7 +4,9 @@
  */
 function closeAddTaskBoard() {
   closeBoardAddTaskAnimation();
-  document.getElementById('boardAddTask').classList.add('dnone');
+  setTimeout(() => {
+    document.getElementById('boardAddTask').classList.add('dnone');
+  }, 250);
 }
 
 /**

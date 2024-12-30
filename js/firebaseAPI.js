@@ -13,24 +13,24 @@ function getHeaders(includeToken = false) {
     const localToken = localStorage.getItem("token");
     const isGuest = sessionStorage.getItem("isGuest") === "true";
 
-    let token = sessionToken || localToken; // Standardmäßig Session zuerst
-
-    // 🚨 Wenn ein Gast eingeloggt ist, nutze NUR den SessionStorage-Token
+    let token = sessionToken || localToken;
     if (isGuest && sessionToken) {
       token = sessionToken;
     }
-
     if (!token) {
       console.warn("Kein gültiger Token gefunden. Umleitung zur Login-Seite.");
       window.location.href = "../index.html";
     }
-
     headers["Authorization"] = `Token ${token}`;
   }
-
   return headers;
 }
 
+/**
+ * Logs out the current user by removing the user ID from session storage and redirecting to the index page.
+ *
+ * @return {void} This function does not return anything.
+ */
 function logout() {
   console.warn('Benutzer wird automatisch ausgeloggt.');
   localStorage.removeItem('token');
@@ -49,52 +49,34 @@ async function loadData(path = "") {
     method: "GET",
     headers: getHeaders(true),
   });
-    
   return await response.json();
 }
 
 /**
- * Asynchronously posts data to a specified path using the Firebase Realtime Database API.
- * @param {string} [path=''] - The path to the data in the Firebase Realtime Database. Defaults to an empty string.
- * @param {Object} [data={}] - The data to be posted. Defaults to an empty object.
- * @return {Promise<Object>} - A promise that resolves to the parsed JSON response from the Firebase Realtime Database.
+ * Asynchronously sends a POST request to the specified path with the given data and returns the JSON response from the server.
+ * @param {string} path - the path to the data to be created
+ * @param {Object} data - the data to be sent to the server
+ * @param {boolean} [includeToken=true] - whether to include the authentication token in the request
+ * @return {Promise<Object>} - a Promise that resolves to the parsed JSON response from the server
  */
-async function postData(path = "", data = {}, includeToken = true) {
-  try {
-      let response = await fetch(BASE_URL + path + "/", {
-          method: "POST",
-          headers: getHeaders(includeToken),
-          body: JSON.stringify(data)
-      });
+async function postData(path, data, includeToken = true) {
+    const response = await fetch(BASE_URL + path + "/", {
+      method: "POST",
+      headers: getHeaders(includeToken),
+      body: JSON.stringify(data),
+    });
+    try {
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.email ? errorData.email[0] : 'Ein Fehler ist aufgetreten.');
+    }
 
-      // 🛑 403 Forbidden – Benutzer automatisch ausloggen
-      if (response.status === 403) {
-          console.warn('Timeout erkannt. Benutzer wird automatisch ausgeloggt.');
-          logout();
-          return;
-      }
-
-      // 🛑 401 Unauthorized – Token ungültig
-      if (response.status === 401) {
-          console.warn('Token ungültig. Benutzer wird automatisch ausgeloggt.');
-          logout();
-          return;
-      }
-
-      if (!response.ok) {
-          throw new Error(`HTTP-Error: ${response.status}`);
-      }
-
-      return await response.json();
+    return await response.json();
   } catch (error) {
-      console.error('Fehler beim Senden der Anfrage:', error.message);
-      if (error.message.includes('401') || error.message.includes('403')) {
-          console.warn('Token ungültig oder Timeout erkannt. Benutzer wird ausgeloggt.');
-          logout();
-      }
+    console.error('Fehler beim Senden der Anfrage:', error.message);
+    throw error; 
   }
 }
-
 
 /**
  * Deletes data from the server at the specified path.
@@ -106,11 +88,13 @@ async function deleteData(path = "") {
     method: "DELETE",
     headers: getHeaders(true),
   });
+
   if (response.status === 204) {
     return { success: true, message: "Erfolgreich gelöscht" };
   }
+
   if (!response.ok) {
-    const errorDetails = await response.json().catch(() => ({})); // JSON-Daten extrahieren, falls vorhanden
+    const errorDetails = await response.json().catch(() => ({}));
     throw new Error(
       `Fehler beim Löschen: ${response.status} ${response.statusText}. Details: ${JSON.stringify(errorDetails)}`
     );
@@ -124,16 +108,28 @@ async function deleteData(path = "") {
  * @return {Promise<Object>} - A promise that resolves to the parsed JSON response from the Firebase Realtime Database.
  */
 async function putData(path = "", data = {}) {
-  let response = await fetch(BASE_URL + path + "/", {
-    method: "PUT",
-    headers: getHeaders(true),
-    body: JSON.stringify(data)
-  });
-  console.log("direction to", BASE_URL + path + "/");
-  if (!response.ok) {
-    throw new Error(`HTTP-Error: ${response.status} ${response.statusText}`);
+  try {
+    const response = await fetch(BASE_URL + path + "/", {
+      method: "PUT",
+      headers: getHeaders(true),
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+      let errorData = {};
+      try {
+        errorData = await response.json(); 
+      } catch {
+        throw new Error(`Serverfehler: ${response.status} ${response.statusText}`);
+      }
+      throw new Error(errorData.email ? errorData.email[0] : `Ein Fehler ist aufgetreten (Status: ${response.status})`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Fehler beim Senden der Anfrage:", error.message);
+    throw error;
   }
-  return await response.json();
 }
 
 
@@ -144,15 +140,31 @@ async function putData(path = "", data = {}) {
  * @return {Promise<Object>} - A promise that resolves to the parsed JSON response from the Firebase Realtime Database.
  */
 async function patchData(path = "", data = {}) {
-  let response = await fetch(BASE_URL + path + "/", {
-    method: "PATCH",
-    headers: getHeaders(true),
-    body: JSON.stringify(data)
-  });
-  console.log("direction to", BASE_URL + path + "/");
-  if (!response.ok) {
-    throw new Error(`HTTP-Error: ${response.status} ${response.statusText}`);
+  try {
+    let response = await fetch(BASE_URL + path + "/", {
+      method: "PATCH",
+      headers: getHeaders(true),
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+      let errorData = {};
+      try {
+        errorData = await response.json();
+      } catch {
+        throw new Error(`Serverfehler: ${response.status} ${response.statusText}`);
+      }
+      throw new Error(
+        errorData.email
+          ? errorData.email[0]
+          : `Ein Fehler ist aufgetreten (Status: ${response.status})`
+      );
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Fehler beim Senden der Anfrage:", error.message);
+    throw error;
   }
-  return await response.json();
 }
 

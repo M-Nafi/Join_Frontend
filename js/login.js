@@ -45,7 +45,6 @@ async function AddUser(event) {
   let confirm_password = document.getElementById("passwordConfirm").value;
 
   let user = await createUser(username, email, phone, password, confirm_password);
-  console.log("User added:", user);
   await postData("registration", user, false);
   showSignUpDialog();
   await sleep(3000);
@@ -171,7 +170,6 @@ async function doLogin(event) {
     const token = response.token;
     const remember = document.getElementById("remember");
     setToken(token, remember);
-    console.log("Token:", response);
     showLoginDialog();
     await sleep(3000);
     window.location.href = "./templates/summary.html";
@@ -182,13 +180,17 @@ async function doLogin(event) {
   }
 }
 
+/**
+ * Stores the given token in either local or session storage, depending on the state of the 'remember' checkbox.
+ * @param {string} token - The token to store.
+ * @param {HTMLInputElement} remember - The checkbox element that determines where the token is stored.
+ * @return {boolean} Always returns false.
+ */
 function setToken(token, remember) {
   if (remember.checked) {
     localStorage.setItem("token", token);
-    console.log("Token gespeichert in Local Storage.");
   } else {
     sessionStorage.setItem("token", token);
-    console.log("Token gespeichert in Session Storage.");
   }
   return false;
 }
@@ -233,6 +235,11 @@ async function getGuestLogin(event) {
   }
 }
 
+/**
+ * Toggles the type of the password input field between "password" and "text" depending
+ * on its current state. Also updates the icon next to the field to represent the
+ * current state.
+ */
 function showPassword() {
   const passwordInput = document.getElementById("password");
   const toggleIcon = document.querySelector("#password + img");

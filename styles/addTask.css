@@ -1,3 +1,11 @@
+input:focus {
+  outline: 1px solid #29abe2;
+}
+
+textarea:focus {
+  outline: 1px solid #29abe2;
+}
+
 .add-task-container {
   display: flex;
   flex-direction: row;
@@ -11,7 +19,7 @@
 
 .add-task-container input {
   border-radius: 10px;
-  width: 440px;
+  max-width: 440px;
   height: 48px;
   border: 1px solid #d1d1d1;
   padding: 12px 16px 12px 16px;
@@ -19,7 +27,7 @@
 
 .add-task-container select {
   border-radius: 10px;
-  width: 440px;
+  max-width: 440px;
   height: 48px;
   border: 1px solid #d1d1d1;
   gap: 10px;
@@ -28,7 +36,7 @@
 
 .add-task-container textarea {
   border-radius: 10px;
-  width: 440px;
+  max-width: 440px;
   border: 1px solid #d1d1d1;
   gap: 10px;
   padding: 12px 16px 12px 16px;
@@ -85,10 +93,12 @@
   font-weight: bold;
   background-color: #ffffff;
   font-size: 21px;
+  border: 1px solid #d1d1d1;
 }
 
 .prio-button:hover {
   cursor: pointer;
+  box-shadow: -4px 4px 8px -5px rgb(90, 90, 90);
 }
 
 textarea {
@@ -102,6 +112,7 @@ textarea {
   background: #2a3647;
   width: 193px;
   height: 56px;
+  border: none;
   border-radius: 10px;
   padding: 16px;
   gap: 4px;
@@ -129,14 +140,15 @@ textarea {
 
 .btn-task:hover {
   background-color: #29abe2;
-  border: 0.5px solid #29abe2;
   cursor: pointer;
+  box-shadow: -4px 4px 8px -5px rgb(90, 90, 90);
 }
 
 .clear-button:hover {
   color: #29abe2;
   border: 0.5px solid #29abe2;
   cursor: pointer;
+  box-shadow: -4px 4px 8px -5px rgb(90, 90, 90);
 }
 
 .clear-button:hover .iconCancelSvg {
@@ -185,15 +197,18 @@ textarea {
 .emblem {
   display: flex;
   align-items: center;
-  justify-content: center;
   width: 33px;
   height: 33px;
-  border: 1px solid black;
+  padding: 10px;
+  margin-left: -7px;
+  border: 1px solid white;
   border-radius: 50%;
   color: white;
   font-size: 12px;
-  margin-left: -8px;
-  text-shadow: 1px 1px 2px rgb(0, 0, 0);
+  justify-content: center;
+  text-align: center;
+  text-shadow: -3px 4px 3px rgb(74, 74, 74);
+  box-shadow: -3px 4px 6px rgba(0, 0, 0, 0.6), inset 0 -3px 4px rgba(0, 0, 0, 0.4), inset -3px 5px 5px rgba(255, 255, 255, 0.7);
 }
 
 .contact-list {
@@ -325,6 +340,10 @@ input[type='checkbox'] {
   outline: none;
   padding: 1px;
   width: 100%;
+}
+
+.subtask-container:focus-within {
+  border: 1px solid #29abe2;
 }
 
 .subtask-right-add img:hover {
@@ -696,7 +715,6 @@ input[type='checkbox'] {
   .add-task-container {
     display: flex;
     flex-direction: column;
-    height: 60vh;
     overflow-y: auto
   }
 
@@ -714,7 +732,7 @@ input[type='checkbox'] {
   .main-container {
     margin-left: 0px;
     align-items: center;
-    margin-top: 180px;
+    margin-top: 145px;
   }
 
   .required-field-text {
@@ -769,11 +787,10 @@ input[type='checkbox'] {
     justify-content: center;
     position: fixed;
     bottom: 75px;
-    width: 100%;
-    left: 0;
     background-color: #f6f7f8;
-    padding-bottom: 16px;
+    padding-bottom: 25px;
     z-index: 10;
+    gap: 32px;
   }
 
   .required-field-text-mobile {
@@ -792,7 +809,11 @@ input[type='checkbox'] {
 
 @media (max-width: 470px) {
   .headline-task {
-    font-size: 48px;
+    font-size: 32px;
+  }
+
+  .task-button-container {
+    padding-bottom: 16px;
   }
 
   .first-task-input-container {
@@ -831,7 +852,6 @@ input[type='checkbox'] {
     width: 100%;
     align-items: center;
     margin-top: 10px;
-    height: 45vh;
   }
 
   #date {
@@ -873,6 +893,7 @@ input[type='checkbox'] {
 
   .btn-task {
     width: 120px;
+    height: 40px;
   }
 
   .select-user-text {
@@ -881,5 +902,14 @@ input[type='checkbox'] {
 
   .category-error-message {
     width: 200px;
+  }
+
+  .btn-task {
+    width: auto;
+    font-size: 16px;  
+  }
+
+  .required-field-text-mobile {
+    font-size: 12px;
   }
 }

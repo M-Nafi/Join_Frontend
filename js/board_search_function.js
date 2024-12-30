@@ -27,7 +27,7 @@ function getSearchQuery() {
  * @return {boolean} Returns true if the search query is shorter than 2 characters, false otherwise.
  */
 function isSearchQueryTooShort(searchQuery) {
-  return searchQuery.length < 2; // angepasst auf 3 Zeichen
+  return searchQuery.length < 2;
 }
 
 /**

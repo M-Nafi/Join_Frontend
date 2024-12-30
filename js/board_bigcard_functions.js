@@ -34,12 +34,12 @@ async function showBigUsersEmblem(cardId) {
  */
 async function renderBigSubtasks(cardId) {
   let bigSubtask = document.getElementById('bigSubtasks');
-  bigSubtask.innerHTML = ''; // Clear existing subtasks
+  bigSubtask.innerHTML = '';  
   const task = tasks.find((t) => t.cardId === cardId);
   if (task && task.subtasks) {
     for (let j = 0; j < task.subtasks.length; j++) {
       const subtask = task.subtasks[j];
-      bigSubtask.innerHTML += renderBigSubtasksHTML(cardId, subtask, j); // Append each subtask's HTML to the string
+      bigSubtask.innerHTML += renderBigSubtasksHTML(cardId, subtask, j); 
     }
   }
 }

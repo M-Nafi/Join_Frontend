@@ -51,11 +51,22 @@ async function usersArray() {
   }
 }
 
+/**
+ * Asynchronously loads the currently logged-in user's data from the 'user' data source and updates the global 'profile' object.
+ *
+ * @return {Promise<void>} A Promise that resolves after loading the user data and updating the global 'profile' object.
+ */
 async function loggedUser() {
   const userProfile = await loadData("user");
   profile = userProfile;
 }
 
+/**
+ * Prevents the default event propagation by calling stopPropagation on the global 'event' object.
+ * This function is intended to be used as an event handler for elements that should not close when clicked.
+ *
+ * @return {void} This function does not return a value.
+ */
 function dontClose() {
   event.stopPropagation();
 }
@@ -126,9 +137,10 @@ function focusMobileSidebar() {
 
 /**
  * Retrieves the user object from the 'users' data source based on the user token stored in the session or local storage.
+ * If no token is found, redirects to the login page.
+ * If the token does not correspond to a user, returns null.
  * @return {Promise<Object|null>} A Promise that resolves to the user object if found, or null if not found.
  */
-
 async function getUserLogin() {
   const sessionToken = sessionStorage.getItem("token");
   const localToken = localStorage.getItem("token");
@@ -149,7 +161,6 @@ async function getUserLogin() {
   try {
     const user = await loadData("user"); 
     if (user) {
-      // console.log("Eingeloggter Benutzer:", user);
       return user;
     } else {
       console.warn("Kein Benutzer gefunden, der mit diesem Token übereinstimmt.");
@@ -182,21 +193,6 @@ async function getGuestLogin(event) {
   } catch (error) {
     console.error("Fehler beim Gast-Login:", error);
     alert("Gast-Login fehlgeschlagen. Bitte versuchen Sie es erneut.");
-  }
-}
-
-/**
- * Asynchronously retrieves the current user's emblem and updates the 'emblemUser' element with it.
- *
- * @return {Promise<void>} A Promise that resolves when the emblem has been updated.
- */
-async function getuseremblem() {
-  let currentUser = await getUserLogin();
-  if (currentUser != null) {
-    let emblemUser = document.getElementById("emblemUser");
-    emblemUser.innerHTML = currentUser.emblem;
-  } else {
-    emblemUser.innerHTML = "";
   }
 }
 
@@ -291,7 +287,6 @@ async function validateTokenOnLoad() {
 
 setInterval(async () => {
   try {
-    // Überprüfen, ob wir auf der index.html oder signUp.html sind
     const currentPage = window.location.pathname.split("/").pop();
     if (["index.html", "signUp.html"].includes(currentPage)) {
       for (let i = 0; i < 1000; i++) {
@@ -313,18 +308,21 @@ setInterval(async () => {
     if (isGuest) {
       console.log("Ping wird als Gastbenutzer gesendet.");
     } else {
-      // console.log("Ping wird als normaler Benutzer gesendet.");
+      console.log("Ping wird als normaler Benutzer gesendet.");
     }
 
     await postData("ping-activity", {}, true);
-    // console.log("Activity ping sent");
+    console.log("Activity ping sent");
   } catch (error) {
     console.error("Fehler beim Activity-Ping:", error.message);
   }
 }, 0.1 * 60 * 1000);
 
 /**
- * Benutzer ausloggen und zur Login-Seite weiterleiten
+ * Logs out the current user by removing any stored token and guest status from local and session storage, 
+ * and redirects to the index page. This function is typically called when a user's token is invalid or expired.
+ *
+ * @return {void} This function does not return anything.
  */
 function logout() {
   console.warn("Token ungültig. Benutzer wird ausgeloggt.");

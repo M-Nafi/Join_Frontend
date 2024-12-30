@@ -15,8 +15,6 @@ async function initAdd() {
   await tasksArray();
   renderUsers();
   renderCategorys();
-  console.log(tasks);
-  console.log(users);
 }
 
 let subtaskList = [];
@@ -316,10 +314,7 @@ async function createNewTask(event) {
     "selectedCategoryContainer"
   );
   let categoryErrorMessage = document.getElementById("categoryErrorMessage");
-  if (
-    selectedCategory === "Select task category" ||
-    selectedCategory.trim() === ""
-  ) {
+  if (selectedCategory === "Select task category" || selectedCategory.trim() === "") {
     spanContactContainer.style.border = "1px solid red";
     categoryErrorMessage.style.color = "red";
     categoryErrorMessage.style.display = "flex";
@@ -337,7 +332,6 @@ async function createNewTask(event) {
     subtasks: subtaskList,
     status: "toDo"
   };
-  console.log(task);
   taskAddedToBoard();
   setTimeout(async function () {
     resetUserDisplay();

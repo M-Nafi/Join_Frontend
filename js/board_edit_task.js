@@ -22,7 +22,6 @@ function editTaskOfBoard(cardId) {
   boardEdit.push(information);
   document.getElementById('showBigCard').innerHTML = boardAddTaskEdit(cardId);
   renderInformation(cardId);
-  console.log(boardEdit);
 }
 
 /**
@@ -383,7 +382,6 @@ async function editTask(cardId, event) {
     cardId: cardId,
   };
   resetEditUserDisplay();
-  console.log('Payload:', updatedTask);
   await updateEditBoard(cardId, updatedTask);
   await updateHTML();
   closeEditBoard();

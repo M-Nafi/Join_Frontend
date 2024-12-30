@@ -142,7 +142,7 @@
 .input-area input {
   background-color: transparent;
   border: none;
-  outline: none;
+  outline: none !important;
   width: 80%;
   padding: 8px 16px 8px 16px;
 }
@@ -269,7 +269,7 @@
 .big-user {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 5px;
 }
 
 .big-single-user {

@@ -304,7 +304,6 @@ async function createNewTaskBoard(boardStatus, event) {
     subtasks: subtaskList,
     status: boardStatus
   };
-  console.log(task);
   taskAddedToBoard();
   setTimeout(async function () {
     resetUserDisplay();
@@ -363,7 +362,8 @@ function taskAddedToBoard() {
 }
 
 /**
- * Animates the addition of a task by removing the 'move-right' class and adding the 'move-left' class to the 'addTaskMainContainer' element.
+ * Animates the add task container by adding the 'move-left' class and
+ * removing the 'move-right' class.
  * @return {void} This function does not return a value.
  */
 function boardAddTaskAnimation() {
@@ -373,11 +373,19 @@ function boardAddTaskAnimation() {
 }
 
 /**
- * Animates the closing of the board add task by adding the 'move-right' class and removing the 'move-left' class from the 'addTaskMainContainer' element.
+ * Animates the add task container by adding the 'move-right' class and
+ * removing the 'move-left' class, and then sets the visibility and opacity
+ * of the container to hidden and 0 respectively after 250 milliseconds.
  * @return {void} This function does not return a value.
  */
 function closeBoardAddTaskAnimation() {
   let addTaskContainer = document.getElementById("addTaskMainContainer");
+
   addTaskContainer.classList.add("move-right");
   addTaskContainer.classList.remove("move-left");
+
+  setTimeout(() => {
+    addTaskContainer.style.visibility = 'hidden'; 
+    addTaskContainer.style.opacity = '0'; 
+  }, 250); 
 }

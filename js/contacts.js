@@ -1,3 +1,4 @@
+let currentSelectedContactId = null;
 /**
  * Initializes the contact functionality by including HTML, loading contacts data asynchronously,
  * and rendering the list of contacts.
@@ -9,7 +10,6 @@ async function initContact() {
   await loggedUser();
   sortContacts();
   renderListContact();
-  console.log(profile);
 }
 
 /**
@@ -29,10 +29,10 @@ async function renderListContact() {
   userContainer.innerHTML = "";
 
   if (profile && profile.username) {
-    userContainer.innerHTML = renderUserContainerHTML(profile, true);
+    userContainer.innerHTML = renderUserContainerHTML(profile);
   }
   sortContacts();
-  renderContactsWithoutUser(listContact, profile);
+  renderContactsWithoutUser(listContact);
 }
 
 /**
@@ -45,7 +45,7 @@ function renderContactsWithoutUser(listContact) {
   let currentLetter = "";
   for (let i = 0; i < contacts.length; i++) {
     let contact = contacts[i];
-  
+
     let firstLetter = contact.name.charAt(0).toUpperCase();
     if (firstLetter !== currentLetter) {
       currentLetter = firstLetter;
@@ -58,9 +58,11 @@ function renderContactsWithoutUser(listContact) {
 }
 
 /**
- * Creates a new contact and adds it to the contacts array.
- * @param {Event} event - The event object for the form submission.
- * @return {Promise<void>} - A promise that resolves when the new contact is added and saved to the server.
+ * Creates a new contact by retrieving the input values from the dialog, creating a new contact object,
+ * saving it to the server, adding it to the contacts array, rendering the list of contacts, closing the dialog,
+ * showing the details of the new contact, and cleaning the input fields.
+ * @param {Event} event - The event object triggered by the form submission.
+ * @return {Promise<void>} A promise that resolves when the creation is complete.
  */
 async function newContact(event) {
   event.preventDefault();
@@ -74,14 +76,39 @@ async function newContact(event) {
     color: colorRandom()
   };
 
-  let saveContact = await postData("contacts", newContact, true);
-  contacts.push(saveContact);
-  sortContacts();
-  await renderListContact();
-  closeDialog();
-  showDetailContact(saveContact.id);
-  cleanContactControls();
-  console.log(saveContact);
+  try {
+    let saveContact = await postData("contacts", newContact, true);
+
+    if (!saveContact) {
+      throw new Error('Fehler beim Erstellen des Kontakts oder keine Antwort erhalten.');
+    }
+
+    contacts.push(saveContact);
+    sortContacts();
+    await renderListContact();
+    closeDialog();
+    showDetails(saveContact.id, "contact");
+    cleanContactControls();
+  } catch (error) {
+    console.error('Fehler beim Erstellen des Kontakts:', error);
+    showError(error);
+  }
+}
+
+/**
+ * Shows the given error message in the error div.
+ * @param {string} error - The error message to show.
+ */
+function showError(error) {
+  let divError = document.getElementById("errorMessage");
+  divError.style.display = "block";
+  let message = error.message ? error.message.replace(/^Error:\s*/, '') : error;
+
+  divError.innerHTML = `
+    <div class="error">
+      <p>${message}</p>
+    </div>
+  `;
 }
 
 /**
@@ -89,21 +116,65 @@ async function newContact(event) {
  * @param {Event} event - Das Form-Event.
  * @param {number} index - Der Index des Kontakts im Array.
  */
-async function editContact(event, index) {
+async function editContact(event, id) {
   event.preventDefault();
+  const contactEdit = contacts.find((c) => c.id === id);
 
-  let contactEdit = contacts[index];
   contactEdit.name = document.getElementById("nameContact").value;
   contactEdit.email = document.getElementById("emailContact").value;
   contactEdit.phone = document.getElementById("phoneContact").value;
   contactEdit.emblem = renderEmblem(contactEdit.name);
+  try {
+    await putData(`contacts/${contactEdit.id}`, contactEdit, true);
+    sortContacts();
+    renderListContact();
+    showDetails(contactEdit.id, "contact");
+    closeDialog();
+    cleanContactControls();
+  } catch (error) {
+    showError(error);
+  }
+}
 
-  await putData(`contacts/${contactEdit.id}`, contactEdit, true);
-  sortContacts();
-  renderListContact();
-  showDetailContact(contactEdit.id);
-  closeDialog();
-  cleanContactControls();
+/**
+ * Edits the current user's information.
+ * @param {Event} event - The form event.
+ * @return {Promise<void>} A promise that resolves when the user is successfully edited and the UI is updated.
+ */
+async function editProfile(event) {
+  event.preventDefault();
+
+  const updatedUser = {
+    id: profile.id,
+    username: document.getElementById("nameProfile").value,
+    email: document.getElementById("emailProfile").value,
+    phone: document.getElementById("phoneProfile").value,
+    emblem: renderEmblem(document.getElementById("nameProfile").value)
+  };
+
+  try {
+    await putData(`user`, updatedUser, true); 
+    sortContacts();
+    await loggedUser();
+    showDetails(profile.id, "profile");
+    closeDialog();
+  } catch (error) {
+    showError(error);
+  }
+}
+
+/**
+ * Deletes the currently logged-in user from the server and redirects to the login page.
+ * @return {Promise<void>} A promise that resolves when the user is deleted and the redirect is complete.
+ */
+async function deleteProfile(id) {
+  if (id !== profile.id) return;
+  try {
+    await deleteData(`user`, true); 
+    window.location.href = "../index.html";
+  } catch (error) {
+    console.error("Fehler beim Löschen des Benutzers:", error);
+  }
 }
 
 /**
@@ -111,19 +182,20 @@ async function editContact(event, index) {
  * deleting the contact from the server, and re-rendering the list of contacts.
  * @param {number} i - Der Index des Kontakts im Array.
  */
-async function deleteContact(i) {
-  let contactDelete = contacts[i];
-  contacts.splice(i, 1);
-  document.getElementById("divDetails").innerHTML = "";
-
+async function deleteContact(id) {
+  const contact = contacts.find((c) => c.id === id);
   try {
-    await deleteData(`contacts/${contactDelete.id}`, true);
+    await deleteData(`contacts/${contact.id}`, true);
+    const index = contacts.findIndex((c) => c.id === id);
+    if (index !== -1) contacts.splice(index, 1);
+    renderListContact();
   } catch (error) {
     console.error("Fehler beim Löschen des Kontakts:", error);
   }
-
-  sortContacts();
   renderListContact();
+  sortContacts();
+  closeDetailDialog();
+
   if (window.innerWidth <= 710) {
     backMobileContListe();
   }
@@ -135,7 +207,7 @@ async function deleteContact(i) {
  * @return {string} The generated emblem.
  */
 function renderEmblem(name) {
-  let aux = name.split(" ");  
+  let aux = name.split(" ");
   let capital = "";
   for (let j = 0; j < aux.length; j++) {
     if (j <= 1) {
@@ -163,38 +235,82 @@ function colorRandom() {
 function sortContacts() {
   contacts.sort((a, b) => a.name.localeCompare(b.name));
 
-  contacts.forEach(contact => {
+  contacts.forEach((contact) => {
     contact.group = contact.name.charAt(0).toUpperCase();
   });
 }
 
+
 /**
- * Displays detailed information about a specific contact by ID.
- * @param {number} id - The unique ID of the contact.
- * @return {void}
+ * Shows or hides the details dialog based on the given id and type.
+ * @param {number} id - The id of the contact to show or hide.
+ * @param {string} type - The type of the contact to show or hide.
+ * @return {void} This function does not return anything.
  */
-function showDetailContact(id) {
-  if (profile == id);
-  let contact = contacts.find((c) => c.id === id);
-  if (contact) {
-    removeSelectedClassFromAllContacts();
-    displayContactDetails(contact);
-    addSelectedClassToCurrentContact(id);
-  } 
+function showDetails(id, type) {
+  let dialog = document.getElementById("divDetails");
+
+  if (currentSelectedContactId === id) {
+    hideDetails(dialog);
+  } else {
+    removeSelectedClassFromAllContacts(); 
+    currentSelectedContactId = id; 
+    showDetailDialog(dialog); 
+    handleContactDetails(id, type); 
+  }
 }
 
-// async function showDetailUser(id) {
-//   if (profile.id == id) {
-//     removeSelectedClassFromAllContacts();
-//     displayContactDetails(profile);
-//     addSelectedClassToCurrentContact(profile.id);
-//   } 
-// }
+/**
+ * Zeigt den Detail-Dialog an, indem die Klasse 'd-none' entfernt
+ * und die Klasse 'move-left' hinzugefügt wird. Nach 250ms wird die
+ * Klasse 'move-left' wieder entfernt.
+ * @param {HTMLElement} dialog - Das HTMLElement, dass den Detail-Dialog darstellt.
+ */
+function showDetailDialog(dialog) {
+  dialog.classList.remove("d-none");
+  dialog.classList.add("move-left");
+  setTimeout(() => dialog.classList.remove("move-left"), 250);
+}
 
 /**
- * Removes the 'contact-list-container-selected' class from all contact list containers.
- * This function ensures that no contact list container is marked as selected.
+ * Versteckt den Detail-Dialog mit Animation
+ * und entfernt die selected-Class von allen Kontakten
+ * und setzt currentSelectedContactId auf null.
+ * @param {HTMLElement} dialog - Das HTMLElement, dass den Detail-Dialog darstellt.
+ */
+function hideDetails(dialog) {
+  dialog.classList.add("move-right");
+  setTimeout(() => {
+    dialog.classList.add("d-none");
+    dialog.classList.remove("move-right");
+    removeSelectedClassFromAllContacts();  
+    currentSelectedContactId = null;  
+  }, 250);
+}
+
+/**
+ * Handles showing the details of a contact or profile.
+ * @param {number} id - The id of the contact or profile.
+ * @param {string} type - The type of the contact or profile ('profile' or 'contact').
  * @return {void} This function does not return anything.
+ */
+function handleContactDetails(id, type) {
+  if (profile.id == id && type === "profile") {
+    displayContactDetails(profile, type);
+    addSelectedClassToCurrentContact(id, "profile");
+  } else if (type === "contact") {
+    let contact = contacts.find((c) => c.id === id);
+    if (contact) {
+      displayContactDetails(contact, type);
+      addSelectedClassToCurrentContact(id, "contact");
+    }
+  }
+}
+
+/**
+ * Removes the 'contact-list-container-selected' class from all contact containers and the logged user container.
+ * This is used to unselect all contacts when the details dialog is closed.
+ * @return {void} This function does not return a value.
  */
 function removeSelectedClassFromAllContacts() {
   let allContactContainers = document.querySelectorAll(".contact-list-container");
@@ -207,83 +323,112 @@ function removeSelectedClassFromAllContacts() {
 }
 
 /**
- * Adds the 'contact-list-container-selected' class to the currently selected contact.
- * @param {number} id - The unique ID of the contact.
- * @return {void}
+ * Adds the 'contact-list-container-selected' class to the element with the given id and type.
+ * @param {number} id - The id of the contact or profile.
+ * @param {string} type - The type ('profile' or 'contact').
+ * @return {Promise<void>} A promise that resolves when the class has been added.
  */
-async function addSelectedClassToCurrentContact(id) {
-  // let user = await loadData("user");
-  if (profile.id == id) {
+async function addSelectedClassToCurrentContact(id, type) {
+  if (type === "profile") {
     let userContainer = document.getElementById("loggedUserContainer");
     userContainer.classList.add("contact-list-container-selected");
-  } else if (contacts.find((c) => c.id === id)) {
+  } else if (type === "contact") {
     let contactListContainer = document.getElementById(`contact-${id}`);
     contactListContainer.classList.add("contact-list-container-selected");
   }
 }
 
-  
-  
-//   if (contactListContainer) {
-    
-//   } else {
-//     console.error(`Container for contact ID ${id} not found.`);
-//   }
-// }
-
 /**
- * Displays the details of the selected contact.
- * @param {object} contact - The contact object to display.
- * @return {void}
+ * Displays the details of a contact or profile.
+ * @param {object} detail - The detail object (profile or contact).
+ * @param {string} type - The type ('profile' or 'contact').
  */
-function displayContactDetails(contact) {
+function displayContactDetails(detail, type) {
   let infoContact = document.getElementById("divDetails");
   infoContact.innerHTML = "";
   infoContact.classList.remove("move-left");
-  infoContact.offsetWidth; 
+  infoContact.offsetWidth;
   infoContact.classList.add("move-left");
-  infoContact.innerHTML += renderContactinList(contact);
+
+  infoContact.innerHTML += renderDetailsHTML(detail, type);
   mobileDetails();
 }
 
-function openAddContactDialog() {
-  openDialog("add");
-}
-
-function openEditContactDialog() {
-  openDialog("edit");
+/**
+ * Generates actions based on the detail type.
+ * @param {string} type - Type of detail ('profile' or 'contact').
+ * @param {number} id - ID of the detail.
+ * @returns {object} Object containing 'edit' and 'delete' actions.
+ */
+function getDetailActions(type, id) {
+  if (type === "profile") {
+    return {
+      edit: `openProfileDialog()`,
+      delete: `deleteProfile(${id})`,
+      infoTitle: "Profile Information"
+    };
+  } else if (type === "contact") {
+    return {
+      edit: `openEditContactDialog(${id})`,
+      delete: `deleteContact(${id})`,
+      infoTitle: "Contact Information"
+    };
+  }
 }
 
 /**
- * Opens the dialog box.
- * @param {string} mode - 'add' für einen neuen Kontakt, 'edit' für einen bestehenden Kontakt.
- * @param {number} [index] - Der Index des Kontakts im Array (nur für 'edit' Modus).
+ * Animates the dialog in with a slide-in animation, and renders the
+ * content of the add contact dialog.
  */
-function openDialog(mode, index = null) {
+function slideIn() {
   let dialog = document.getElementById("dialog");
   let dialogContent = document.getElementById("dialogContent");
+  dialog.classList.remove("d-none");
+  dialogContent.classList.add("move-left");
 
-  dialog.classList.remove("d-none"); 
-  dialogContent.innerHTML = ""; 
+  setTimeout(() => {
+    dialogContent.classList.remove("move-left");
+  }, 250);
 
-  if (mode === "edit" && index !== null) {
-    const contact = contacts[index];
-    dialogContent.innerHTML = renderContactDialog("edit", contact, index);
-  } else {
-    dialogContent.innerHTML = renderContactDialog("add");
+  dialog.classList.remove("d-none");
+  dialogContent.innerHTML = renderAddContactDialog();
+}
+
+/**
+ * Opens a dialog to add a new contact.
+ */
+function openAddContactDialog() {
+  slideIn();
+}
+
+/**
+ * Opens a dialog to edit the user profile.
+ */
+function openProfileDialog() {
+  slideIn();
+  dialogContent.innerHTML = renderProfileDialog(profile);
+}
+
+/**
+ * Opens a dialog to edit an existing contact.
+ * @param {number} contactId - The ID of the contact to edit.
+ */
+function openEditContactDialog(id) {
+  slideIn();
+  const contact = contacts.find((c) => c.id === id);
+  if (!contact) {
+    console.error(`Contact with ID ${id} not found.`);
+    return;
   }
+  dialogContent.innerHTML = renderContactDialog(contact);
 }
 
 /**
  * Closes the dialog box.
  * @return {void} This function does not return anything.
  */
-function closeDialog() {
-  let mobileMode = document.getElementById("amobile_nameContact");
-  if (mobileMode != null && mobileMode.style.display == "flex") {
-    mobileMode.style.display = "none";
-  }
-  let dialog = document.getElementById("dialog");
+function closeDetailDialog() {
+  let dialog = document.getElementById("divDetails");
   dialog.classList.add("d-none");
 }
 
@@ -295,17 +440,17 @@ function closeDialog() {
 function showNewContactDetails(newContact) {
   closeDialog();
   cleanContactControls();
-  renderListContact();  
+  renderListContact();
   displayNewContactDetails(newContact);
   document.getElementById("contactCreated").classList.remove("d-none");
-  contactCreatedDiv();  
+  contactCreatedDiv();
 }
 
 /**
  * Displays the details of a newly created contact.
  * Iterates over the contacts array and finds the index of the newly created contact.
  * Clears the innerHTML of the contact details div, removes the 'move-left' class,
- * renders the contact using renderContactinList and adds the rendered HTML to the div,
+ * renders the contact using renderDetailsHTML and adds the rendered HTML to the div,
  * and calls the mobileDetails function.
  * @param {Object} newContact - The newly created contact object.
  * @return {void} This function does not return a value.
@@ -314,10 +459,10 @@ function displayNewContactDetails(newContact) {
   for (let i = 0; i < contacts.length; i++) {
     if (newContact.name == contacts[i].name) {
       let infoContact = document.getElementById("divDetails");
-      infoContact.innerHTML = " "; 
-      infoContact.classList.remove("move-left"); 
-      infoContact.innerHTML += renderContactinList(i); 
-      mobileDetails(); 
+      infoContact.innerHTML = " ";
+      infoContact.classList.remove("move-left");
+      infoContact.innerHTML += renderDetailsHTML(i);
+      mobileDetails();
     }
   }
 }
@@ -397,7 +542,9 @@ function toggleActive(button) {
   const mobileMode = document.getElementById("amobile_nameContact");
   if (!mobileMode) return;
   button.classList.toggle("active");
-  mobileMode.style.display = button.classList.contains("active") ? "flex" : "none";
+  mobileMode.style.display = button.classList.contains("active")
+    ? "flex"
+    : "none";
 
   function handleOutsideClick(event) {
     if (!button.contains(event.target) && !mobileMode.contains(event.target)) {
@@ -417,11 +564,22 @@ function toggleActive(button) {
 }
 
 /**
- * Closes the dialog box when clicking outside.
+ * Closes a dialog with the specified ID.
+ * If no dialogId is given, it defaults to "dialog".
+ * The dialog is closed by adding the 'move-right' class to the dialog content,
+ * and then 250ms later, the 'd-none' class is added to the dialog to hide it,
+ * and the 'move-right' class is removed from the dialog content.
+ * @param {string} dialogId - The ID of the dialog to close.
+ * @return {void} This function does not return a value.
  */
-function closeDialog() {
-  let dialog = document.getElementById("dialog");
+function closeDialog(dialogId = "dialog") {
+  let dialogContent = document.getElementById("dialogContent");
+  let dialog = document.getElementById(dialogId);
   if (dialog) {
-    dialog.classList.add("d-none"); // Dialog verstecken
+    dialogContent.classList.add("move-right");
+    setTimeout(() => {
+      dialog.classList.add("d-none");
+      dialogContent.classList.remove("move-right");
+    }, 250);
   }
 }

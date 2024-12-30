@@ -7,8 +7,6 @@ async function initBoard() {
   await usersArray();
   await tasksArray();
   await updateHTML();
-  console.log(tasks);
-  console.log(users);
 }
 
 let boardEdit = [];
@@ -118,7 +116,7 @@ function renderSmallSubtasks(task) {
   if (task.subtask && task.subtask.length > 0) {
     for (let j = 0; j < task.subtask.length; j++) {
       const subtask = task.subtask[j];
-      smallSubtask.innerHTML += `<div>${subtask}</div> `; // Append each subtask's HTML to the string
+      smallSubtask.innerHTML += `<div>${subtask}</div> `;
     }
   }
 }
@@ -263,7 +261,6 @@ async function updateSubtasks(cardId, isubtask, value) {
       let subtaskId = task.subtasks[isubtask].id;
       let patchUrl = `tasks/${task.cardId}/subtasks/${subtaskId}`;
       let response = await patchData(patchUrl, { checked: value }, true);
-      console.log(response);
     }
   }
 }
