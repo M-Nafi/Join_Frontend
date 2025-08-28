@@ -37,26 +37,14 @@
       <section class="top">
         <div class="top-left">
           <h1>Board</h1>
-          <img
-            class="top-add-task"
-            onclick="showBoardAddTask('toDo')"
-            src="..//assets/icons/add_icon_white.svg"
-          />
+          <img class="top-add-task" onclick="showBoardAddTask('toDo')" src="..//assets/icons/add_icon_white.svg" />
         </div>
         <div class="top-right">
           <div class="input-area">
-            <input
-              id="search"
-              onkeyup="searchTasks()"
-              placeholder="Find Task"
-            />
+            <input id="search" onkeyup="searchTasks()" placeholder="Find Task" />
             <div class="input-area-right">
               <div class="input-area-right-seperator"></div>
-              <img
-                class="search-svg"
-                src="../assets/icons/search.svg"
-                onclick="searchTasks()"
-              />
+              <img class="search-svg" src="../assets/icons/search.svg" onclick="searchTasks()" />
             </div>
           </div>
           <button onclick="showBoardAddTask('toDo'); boardAddTaskAnimation()">
@@ -69,74 +57,34 @@
         <div class="todo">
           <div class="todo-head">
             <h3>To Do</h3>
-            <img
-              onclick="showBoardAddTask('toDo'); boardAddTaskAnimation()"
-              class="plus-btn-svg"
-              src="..//assets/icons/plusbuttonBoard.svg"
-            />
+            <img onclick="showBoardAddTask('toDo'); boardAddTaskAnimation()" class="plus-btn-svg" src="..//assets/icons/plusbuttonBoard.svg" />
           </div>
-          <div
-            class="drag-area"
-            id="toDo"
-            ondrop="moveTo(event,'toDo')"
-            ondragover="allowDrop(event); highlight('toDo')"
-            ondragleave="removeHighlight('toDo')"
-          ></div>
+          <div class="drag-area" id="toDo" ondrop="moveTo(event,'toDo')" ondragover="allowDrop(event); highlight('toDo')" ondragleave="removeHighlight('toDo')"></div>
         </div>
         <div class="in-progress">
           <div class="in-progress-head">
             <h3>In Progress</h3>
-            <img
-              onclick="showBoardAddTask('inProgress'); boardAddTaskAnimation()"
-              class="plus-btn-svg"
-              src="..//assets/icons/plusbuttonBoard.svg"
-            />
+            <img onclick="showBoardAddTask('inProgress'); boardAddTaskAnimation()" class="plus-btn-svg" src="..//assets/icons/plusbuttonBoard.svg" />
           </div>
-          <div
-            class="drag-area"
-            id="inProgress"
-            ondrop="moveTo(event, 'inProgress')"
-            ondragover="allowDrop(event); highlight('inProgress')"
-            ondragleave="removeHighlight('inProgress')"
-          ></div>
+          <div class="drag-area" id="inProgress" ondrop="moveTo(event, 'inProgress')" ondragover="allowDrop(event); highlight('inProgress')" ondragleave="removeHighlight('inProgress')"></div>
         </div>
         <div class="await-feedback">
           <div class="await-feedback-head">
             <h3>Await Feedback</h3>
-            <img
-              onclick="showBoardAddTask('awaitFeedback'); boardAddTaskAnimation()"
-              class="plus-btn-svg"
-              src="..//assets/icons/plusbuttonBoard.svg"
-            />
+            <img onclick="showBoardAddTask('awaitFeedback'); boardAddTaskAnimation()" class="plus-btn-svg" src="..//assets/icons/plusbuttonBoard.svg" />
           </div>
-          <div
-            class="drag-area"
-            id="awaitFeedback"
-            ondrop="moveTo(event,'awaitFeedback')"
-            ondragover="allowDrop(event); highlight('awaitFeedback')"
-            ondragleave="removeHighlight('awaitFeedback')"
-          ></div>
+          <div class="drag-area" id="awaitFeedback" ondrop="moveTo(event,'awaitFeedback')" ondragover="allowDrop(event); highlight('awaitFeedback')" ondragleave="removeHighlight('awaitFeedback')"></div>
         </div>
         <div class="done">
           <div class="done-head">
             <h3>Done</h3>
           </div>
-          <div
-            class="drag-area"
-            id="done"
-            ondrop="moveTo(event, 'done')"
-            ondragover="allowDrop(event); highlight('done')"
-            ondragleave="removeHighlight('done')"
-          ></div>
+          <div class="drag-area" id="done" ondrop="moveTo(event, 'done')" ondragover="allowDrop(event); highlight('done')" ondragleave="removeHighlight('done')"></div>
         </div>
         <div onclick="closeBigCard()">
           <div id="showBigCard" class="show-bigcard dnone"></div>
         </div>
-        <div
-          onclick="closeAddTaskBoard()"
-          id="boardAddTask"
-          class="board-add-task dnone"
-        ></div>
+        <div onclick="closeAddTaskBoard()" id="boardAddTask" class="board-add-task dnone"></div>
       </section>
     </div>
   </body>

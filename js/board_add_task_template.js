@@ -1,10 +1,8 @@
 /**
  * Renders the HTML for adding a task to a board.
- * @param {string} boardStatus - The status of the board.
- * @return {string} The HTML code for adding a task to a board.
  */
 function renderBoardAddTaskHTML(boardStatus) {
-  return /*html*/ `
+    return /*html*/ `
 
   <div id="addTaskMainContainer" class="add-task-main-container" onclick="dontCloseTask(event)">
   <div id="taskAddedToBoard" class="task-added-to-board dnone">
@@ -141,12 +139,9 @@ function renderBoardAddTaskHTML(boardStatus) {
 
 /**
  * Renders the HTML for a user in the contact list.
- * @param {Object} user - The user object containing the user's information.
- * @param {number} i - The index of the user in the list.
- * @return {string} The HTML string representing the user in the contact list.
  */
 function renderUsersHTML(user, i) {
-  return /*html*/ `
+    return /*html*/ `
       <label for="checkbox${i}">
           <li class="contactlist" id="contactList${i}">        
               <div tabindex="0" class="emblem" style="background-color: ${user.color}">
@@ -161,11 +156,9 @@ function renderUsersHTML(user, i) {
 
 /**
  * Renders the HTML for a category in the category list.
- * @param {number} i - The index of the category in the list.
- * @return {string} The HTML string representing the category in the category list.
  */
 function renderCategorysHTML(i) {
-  return /*html*/ `
+    return /*html*/ `
           <li class="contactlist">
               <span for="">
                 <div class="categorylist" tabindex="0" onclick="selectCategory(event,${i})">
@@ -177,30 +170,23 @@ function renderCategorysHTML(i) {
 
 /**
  * Renders a grey emblem with the specified extra count.
- * @param {number} extraCount - The additional count to display on the emblem.
- * @return {string} The HTML for the grey emblem with the extra count.
  */
 function renderGreyEmblem(extraCount) {
-  return `<div class="grey-emblem">+${extraCount}</div>`;
+    return `<div class="grey-emblem">+${extraCount}</div>`;
 }
 
 /**
  * Renders a grey emblem with the specified remaining count.
- *
- * @param {number} remainingCount - The remaining count to display on the emblem.
- * @return {string} The HTML for the grey emblem with the remaining count.
  */
 function renderGreyEmblem(remainingCount) {
-  return `<div class="grey-emblem">+${remainingCount}</div>`;
+    return `<div class="grey-emblem">+${remainingCount}</div>`;
 }
 
 /**
  * Renders an emblem for a given contact.
- * @param {Object} contact - The contact object containing color, emblem, and userId properties.
- * @return {string} The HTML string representing the emblem.
  */
 function renderEmblemUsers(contact) {
-  return /*html*/ `
+    return /*html*/ `
       <div class="emblem" style="background-color: ${contact.color}" id="${contact.id}">
       ${contact.emblem}
     </div>  `;
@@ -208,11 +194,9 @@ function renderEmblemUsers(contact) {
 
 /**
  * Renders a subtask HTML element with the given index.
- * @param {number} i - The index of the subtask.
- * @return {string} The HTML string representing the subtask element.
  */
 function renderSubtaskHTML(i) {
-  return /*html*/ `
+    return /*html*/ `
     <div class="subtasklist" id="mainSubtask-container${i}">
             <input
               readonly
@@ -231,11 +215,9 @@ function renderSubtaskHTML(i) {
 
 /**
  * Returns an HTML string representing the edit subtask image elements with the given index.
- * @param {number} i - The index of the subtask.
- * @return {string} The HTML string representing the edit subtask image elements.
  */
 function editSubtaskHTML(i) {
-  return /*html*/ `
+    return /*html*/ `
     <img onclick="deleteSubtask(${i})" id="deleteSubtask${i}" src="../assets/icons/delete_contact_icon.svg" alt="">
     <div class="edit-seperator"></div>
     <img  onclick="checkSubtask(${i})" id="checkSubtask${i}" src="../assets/icons/check.svg" alt="">
@@ -244,11 +226,9 @@ function editSubtaskHTML(i) {
 
 /**
  * Generates HTML elements for editing a subtask.
- * @param {number} i - The index of the subtask.
- * @return {string} The HTML elements for editing a subtask.
  */
 function checkSubtaskHTML(i) {
-  return /*html*/ `
+    return /*html*/ `
     <img onclick="editSubtask(${i})" id="editSubtask${i}" src="../assets/icons/edit_contacts_icon.svg" alt="">
     <div class="edit-seperator"></div>
     <img onclick="deleteSubtask(${i})" id="deleteSubtask${i}" src="../assets/icons/delete_contact_icon.svg" alt="">

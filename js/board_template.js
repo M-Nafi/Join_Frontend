@@ -1,10 +1,8 @@
 /**
  * Renders an empty board HTML element with a message indicating the specified status.
- * @param {string} status - The status to display in the message.
- * @return {string} The HTML code for the empty board element.
  */
 function renderEmptyBoard(status) {
-  return /*html*/ `
+    return /*html*/ `
       <div class="empty-board">
         <span>No tasks ${status}</span>
       </div>
@@ -13,47 +11,43 @@ function renderEmptyBoard(status) {
 
 /**
  * Renders a small card HTML element with the given task information.
- * @param {Object} task - The task object containing information about the task.
- * @return {string} The HTML code for the small card element.
  */
 function renderSmallCardHTML(task) {
-  return /*html*/ `
-      <div draggable="true" ondragstart="startDragging(${task.cardId})" id="${
-    task.cardId
-  }" class="smallcard" onclick="showBigCard(${
-    task.cardId
-  }); openBigCardAnimation()">
+    return /*html*/ `
+      <div draggable="true" ondragstart="startDragging(${task.cardId})" 
+        id="${task.cardId}" class="smallcard" onclick="showBigCard(${
+        task.cardId
+    }); openBigCardAnimation()">
         <div class="category">
           <h3 style='background-color:${getBackgroundCategory(task)}'>${
-    task.category
-  }</h3>
+        task.category
+    }</h3>
           <div class="mobileBoard" id="mobileBoard" onclick="openMobileOptions(${
-            task.cardId
-          }, '${
-    task.status
-  }', event)"><img class="imgMobile" src="../assets/icons/more_vert_icon.svg"/></div>
+              task.cardId
+          }, '${task.status}', event)">
+            <img class="imgMobile" src="../assets/icons/more_vert_icon.svg"/></div>
           <div class="amobile_boardOptions" id="amobile_boardOptions${
-            task.cardId
+              task.cardId
           }" style="display:none">            
               <p class="mobileClose"><b>Move To...</b><button class="btnClose" onclick="closeMobilOptions(event,${
-                task.cardId
+                  task.cardId
               })"><b>X</b></button></p>
               <a id="moveTo_${task.cardId}_toDo" onclick="mobilemoveTo('toDo',${
-    task.cardId
-  },event)">To&nbsp;Do</a>
+        task.cardId
+    },event)">To&nbsp;Do</a>
               <a id="moveTo_${
-                task.cardId
+                  task.cardId
               }_inProgress" onclick="mobilemoveTo('inProgress',${
-    task.cardId
-  },event)">In&nbsp;Progress</a>
+        task.cardId
+    },event)">In&nbsp;Progress</a>
               <a id="moveTo_${
-                task.cardId
+                  task.cardId
               }_awaitFeedback" onclick="mobilemoveTo('awaitFeedback',${
-    task.cardId
-  },event)">Await&nbsp;Feedback</a>
+        task.cardId
+    },event)">Await&nbsp;Feedback</a>
               <a id="moveTo_${task.cardId}_done" onclick="mobilemoveTo('done',${
-    task.cardId
-  },event)">Done</a>
+        task.cardId
+    },event)">Done</a>
           </div>                        
         </div>
         <div class="title">
@@ -68,7 +62,7 @@ function renderSmallCardHTML(task) {
         </div>
         <div class="information">
           <div class="small-usersemblem" id="smallUsersEmblem${
-            task.cardId
+              task.cardId
           }"></div>
           <div class="priority" id="priority${task.cardId}">
               <img src="../assets/icons/${task.priority}.svg" alt="">
@@ -80,29 +74,23 @@ function renderSmallCardHTML(task) {
 
 /**
  * Renders a grey emblem HTML element with the given extra count.
- * @param {number} extraCount - The count to display in the emblem.
- * @return {string} The HTML string representing the grey emblem.
  */
 function renderGreyEmblem(extraCount) {
-  return `<div class="grey-emblem">+${extraCount}</div>`;
+    return `<div class="grey-emblem">+${extraCount}</div>`;
 }
 
 /**
  * Renders a grey emblem with the remaining count.
- * @param {number} remainingCount - the count of remaining items
- * @return {string} the HTML for the grey emblem
  */
 function renderGreyEmblem(remainingCount) {
-  return `<div class="grey-emblem">+${remainingCount}</div>`;
+    return `<div class="grey-emblem">+${remainingCount}</div>`;
 }
 
 /**
  * Renders a small user emblem HTML element with the given user object.
- * @param {Object} user - The user object containing the user's color and emblem.
- * @return {string} The HTML string representing the small user emblem.
  */
 function renderSmallUsersEmblem(user) {
-  return /*html*/ `
+    return /*html*/ `
         <div class="small-useremblem" style="background-color: ${user.color}" id="${user.id}">
         ${user.emblem}
       </div>  `;
@@ -110,16 +98,14 @@ function renderSmallUsersEmblem(user) {
 
 /**
  * Renders the HTML for a big card based on the provided card ID.
- * @param {string} cardId - The ID of the card to render.
- * @return {string} The HTML string representing the big card.
  */
 function renderBigCardHTML(cardId) {
-  let task = tasks.find((t) => t.cardId == cardId);
-  return /*html*/ `
+    let task = tasks.find((t) => t.cardId == cardId);
+    return /*html*/ `
       <div id="bigCard${task.cardId}" class="bigcard"  onclick="dontClose()">
         <div class="big-header">
           <div><span class="big-task-category" style='background-color:${getBackgroundCategory(
-            task
+              task
           )}'>${task.category}</span></div>
           <div><img class="close" onclick="closeBigCard();" src="../assets/icons/close_icon.svg" alt="schließen"/></div>
         </div>
@@ -151,14 +137,14 @@ function renderBigCardHTML(cardId) {
         </div>
         <div class="bigcard-edit">
           <div id="bigDelete" class="big-delete" onclick="deleteTaskOfBoard(${
-            task.cardId
+              task.cardId
           })">
             <img  src="../assets/icons/delete_contact_icon.svg" alt="">
             <span>Delete</span>
           </div>
           <div class="big-seperator"></div>
           <div id="bigEdit" class="big-edit" onclick="editTaskOfBoard(${
-            task.cardId
+              task.cardId
           })">
             <img src="../assets/icons/edit-contacts_icon.svg" alt="">
             <span>Edit</span>
@@ -170,11 +156,9 @@ function renderBigCardHTML(cardId) {
 
 /**
  * Renders the user's emblem with styling and user information.
- * @param {Object} user - The user object containing user information.
- * @return {string} The HTML content displaying the user's emblem and name.
  */
 function renderBigEmblemUsers(user) {
-  return /*html*/ `
+    return /*html*/ `
     <div class="big-single-user">
         <div class="big-useremblem" style="background-color: ${user.color}" id="${user.id}">
           ${user.emblem}
@@ -185,17 +169,15 @@ function renderBigEmblemUsers(user) {
 
 /**
  * Renders the HTML for a big subtask.
- * @param {string} cardId - The ID of the card.
- * @param {Object} subtask - The subtask object.
- * @param {number} j - The index of the subtask.
- * @return {string} The HTML for the big subtask.
  */
 function renderBigSubtasksHTML(cardId, subtask, j) {
-  return /*html*/ `
+    return /*html*/ `
         <label for="checkbox${j}">
             <li class="big-subtasklist">
                 <input class="big-card-checkbox" onclick="checkedSubtask(${cardId}, ${j})" type="checkbox"  
-                ${subtask.checked ? "checked" : ""} id="checkbox${j}" data-userid="${j}">
+                ${
+                    subtask.checked ? 'checked' : ''
+                } id="checkbox${j}" data-userid="${j}">
                 <div class="contactname">${subtask.subtasktext}</div>
             </li>
         </label>`;

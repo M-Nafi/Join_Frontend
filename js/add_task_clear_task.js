@@ -1,6 +1,5 @@
 /**
  * Clears the title and description input fields.
- * @return {void} This function does not return anything.
  */
 function clearTitleAndDescription() {
   document.getElementById('title').value = '';
@@ -9,7 +8,6 @@ function clearTitleAndDescription() {
 
 /**
  * Clears the value of the 'date' input field and sets the priority to 'medium'.
- * @return {void} This function does not return a value.
  */
 function clearDateAndPriority() {
   document.getElementById('date').value = '';
@@ -19,7 +17,6 @@ function clearDateAndPriority() {
 /**
  * Clears the selected category by setting the innerHTML of the element with
  * the id 'selectedCategory' to 'Select task category'.
- * @return {void} This function does not return a value.
  */
 function clearSelectedCategory() {
   document.getElementById('selectedCategory').innerHTML =
@@ -29,7 +26,6 @@ function clearSelectedCategory() {
 /**
  * Clears the subtask list by resetting the subtaskList array and the value of the 'subtaskInput' element.
  * Then, it calls the 'renderSubtask' function to update the UI.
- * @return {void} This function does not return a value.
  */
 function clearSubtasks() {
   subtaskList = [];
@@ -40,7 +36,6 @@ function clearSubtasks() {
 /**
  * Clears the input field for subtasks by resetting its value, placeholder, read-only status, and text color.
  * Also resets the border style of the subtask container element.
- * @return {void} This function does not return a value.
  */
 function clearSubtaskInput() {
   let subtaskInput = document.getElementById('subtaskInput');
@@ -54,7 +49,6 @@ function clearSubtaskInput() {
 
 /**
  * Resets the display for the user section by hiding it and updating the arrow icons.
- * @return {void} This function does not return a value.
  */
 function resetUserDisplay() {
   let users = document.getElementById('users');
@@ -65,7 +59,6 @@ function resetUserDisplay() {
 
 /**
  * Clears all checkboxes on the page by setting their 'checked' property to false.
- * @return {void} This function does not return a value.
  */
 function clearAllCheckbox() {
   let checkboxes = document.querySelectorAll("input[type='checkbox']");

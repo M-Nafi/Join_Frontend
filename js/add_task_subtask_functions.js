@@ -1,6 +1,5 @@
 /**
  * Changes the visibility and styling of the subtask buttons and input field based on the length of the subtaskList array.
- * @return {void} This function does not return a value.
  */
 function changeButtonsSubtask() {
   if (subtaskList.length < 5) {
@@ -17,7 +16,6 @@ function changeButtonsSubtask() {
 
 /**
  * Removes a subtask by clearing the input value and toggling visibility of subtask buttons.
- * @return {void} This function does not return a value.
  */
 function removeSubtask() {
   subtask = document.getElementById('subtaskInput');
@@ -28,7 +26,6 @@ function removeSubtask() {
 
 /**
  * Removes icons by toggling visibility of subtask buttons.
- * @return {void} This function does not return a value.
  */
 function removeIcons() {
   document.getElementById('subtask-right-regular').classList.remove('dnone');
@@ -38,7 +35,6 @@ function removeIcons() {
 /**
  * Adds a new subtask to the list if there are fewer than 5 subtasks already.
  * If there are already 5 subtasks, displays an error message.
- * @return {void} This function does not return a value.
  */
 function addSubtask() {
   let input = document.getElementById('subtaskInput').value;
@@ -59,8 +55,6 @@ function addSubtask() {
 
 /**
  * Deletes a subtask from the subtaskList array and updates the UI accordingly.
- * @param {number} i - The index of the subtask to be deleted.
- * @return {void} This function does not return a value.
  */
 function deleteSubtask(i) {
   subtaskList.splice(i, 1);
@@ -74,8 +68,6 @@ function deleteSubtask(i) {
 
 /**
  * Edits the subtask at the specified index.
- * @param {number} i - The index of the subtask to edit.
- * @return {void} This function does not return anything.
  */
 function editSubtask(i) {
   document.getElementById(`subtaskList${i}`).readOnly = false;
@@ -92,8 +84,6 @@ function editSubtask(i) {
 
 /**
  * Updates the subtask text in the subtaskList array and triggers the rendering of subtasks.
- * @param {number} i - The index of the subtask to update.
- * @return {void} This function does not return a value.
  */
 function checkSubtask(i) {
   subtaskList[i].subtasktext = document.getElementById(`subtaskList${i}`).value;

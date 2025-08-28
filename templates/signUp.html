@@ -1,77 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Signup</title>
     <script src="../js/login.js"></script>
     <script src="../js/firebaseAPI.js"></script>
     <script src="../js/script.js"></script>
-    <link rel="stylesheet" href="../styles/style.css">
-    <link rel="stylesheet" href="../styles/login.css">
+    <link rel="stylesheet" href="../styles/style.css" />
+    <link rel="stylesheet" href="../styles/login.css" />
     <link rel="stylesheet" href="../styles/fonts.css" />
     <link rel="icon" type="image/x-icon" href="../assets/icons/join_login.svg" />
-</head>
+  </head>
 
-<body onload="init()">
+  <body onload="init()">
     <div class="containerLog" id="containerLog">
-        <div class="headlineLogin">
-            <img class="img-logo" id="imgLogoID" src="../assets/icons/join_login.svg">
+      <div class="headlineLogin">
+        <img class="img-logo" id="imgLogoID" src="../assets/icons/join_login.svg" />
+      </div>
+      <form oninput="validateSignUpForm()" class="formSignUp" id="formSignUp" onsubmit="AddUser(event)">
+        <div class="headlineSignUp">
+          <a class="a_headlineSignUp" onclick="backToLogin()"><img class="icoArrowLeft" src="../assets/icons/arrow-left-line.svg" /></a>
+          <h1 class="title underline">Sign up</h1>
         </div>
-        <form oninput="validateSignUpForm()" class="formSignUp" id="formSignUp" onsubmit="AddUser(event)">
-
-            <div class="headlineSignUp">
-                <a class="a_headlineSignUp" onclick="backToLogin()"><img class="icoArrowLeft"
-                        src="../assets/icons/arrow-left-line.svg"></i></a>
-                <h1 class="title underline">Sign up</h1>
-            </div>
-            <div class="groupSignUp-input">
-                <div class="inputs style_InputTypography1">
-                    <input type="text" id="name" placeholder="Name" required>
-                    <img src="../assets/icons/personInput_icon.svg" alt="">
-                </div>
-                <div class="inputs style_InputTypography1">
-                    <input type="email" id="email" placeholder="Email" required>
-                    <img src="../assets/icons/mail_icon.svg" alt="">
-                </div>
-                <div class="inputs style_InputTypography1">
-                    <input type="tel" id="signupPhone"  pattern="[0-9+ ]{6,13}"
-                    placeholder="Phone" required>
-                    <img src="../assets/icons/call_icon.svg" alt="">
-                </div>
-                <div class="inputs style_InputTypography1">
-                    <input id="password" type="password" placeholder="Password" onkeyup="resetError()" required>
-                    <img src="../assets/icons/visibility.svg" onclick="showPassword()" alt="Show Password">
-                </div>
-                <div class="inputs style_InputTypography1">
-                    <input name="confirmPass" type="password" id="passwordConfirm"
-                    placeholder="Confirm Password" onkeyup="resetError()" required>
-                    <img src="../assets/icons/visibility.svg" onclick="showPasswordConf()" alt="Show Password">
-                </div>
-                <div class="confirm-error">
-                    <span id="pwErrorCheck" class="pw-error-check"></span>
-                </div>
-            </div>
-            <div class="box-rememberSignup style_InputTypography2">
-                <input class="checkBox" type="checkbox" id="acepptRules">
-                <span for="remember"> I accept the &nbsp; <a class="a_formSignUp" href="./privacy_policy.html"> Privacy
-                        policy</a></span>
-            </div>
-            <div class="divBtn">
-                <button class="btn-disabled style_BtnTypography1" type="submit" id="btnSignUp">Sign up</button>
-            </div>
-        </form>
-        <div class="footerLogin">
-            <a class="a_footer style_InputTypography2" href="../privacy_policy.html">Privacy Policy</a>
-            <a class="a_footer style_InputTypography2" href="../legal_notice.html">Legal notice</a>
+        <div class="groupSignUp-input">
+          <div class="inputs style_InputTypography1">
+            <input type="text" id="name" placeholder="Name" required />
+            <img src="../assets/icons/personInput_icon.svg" alt="" />
+          </div>
+          <div class="inputs style_InputTypography1">
+            <input type="email" id="email" placeholder="Email" required />
+            <img src="../assets/icons/mail_icon.svg" alt="" />
+          </div>
+          <div class="inputs style_InputTypography1">
+            <input type="tel" id="signupPhone" placeholder="Phone" required />
+            <img src="../assets/icons/call_icon.svg" alt="" />
+          </div>
+          <div class="inputs style_InputTypography1">
+            <input id="password" type="password" placeholder="Password" onkeyup="resetError()" required />
+            <img src="../assets/icons/visibility.svg" onclick="showPassword()" alt="Show Password" />
+          </div>
+          <div class="inputs style_InputTypography1">
+            <input name="confirmPass" type="password" id="passwordConfirm" placeholder="Confirm Password" onkeyup="resetError()" required />
+            <img src="../assets/icons/visibility.svg" onclick="showPasswordConf()" alt="Show Password" />
+          </div>
+          <div id="errorMessage" class="error-message d-none"></div>
         </div>
-        <div id="dialogSingUp" class="dialog-bg d-none">
-            <div class="signup-box">
-                You Signed Up successfully
-            </div>
+        <div class="box-rememberSignup style_InputTypography2">
+          <input class="checkBox" type="checkbox" id="acepptRules" />
+          <span for="remember">I accept the &nbsp; <a class="a_formSignUp" href="./privacy_policy.html">Privacy policy</a></span>
         </div>
+        <div class="divBtn">
+          <button class="btn-disabled style_BtnTypography1" type="submit" id="btnSignUp">Sign up</button>
+        </div>
+      </form>
+      <div class="footerLogin">
+        <a class="a_footer style_InputTypography2" href="../privacy_policy.html">Privacy Policy</a>
+        <a class="a_footer style_InputTypography2" href="../legal_notice.html">Legal notice</a>
+      </div>
+      <div id="dialogSingUp" class="dialog-bg d-none">
+        <div class="signup-box">You Signed Up successfully</div>
+      </div>
     </div>
-</body>
-
+  </body>
 </html>
